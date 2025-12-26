@@ -53,71 +53,80 @@ class Router(BaseHTTPRequestHandler):
         add_cors_headers(self)
         self.end_headers()
 
-# Consolidated GET Handler
-def do_GET(self):
-    path = urlparse(self.path).path
+    # -------------------------------
+    # GET
+    # -------------------------------
+    def do_GET(self):
+        path = urlparse(self.path).path
 
-    if handle_ui_routes(self, path):
-        return
+        # UI routes first (SPA)
+        if handle_ui_routes(self, path):
+            return
 
-# ---- Books ----
-    if path == "/api/books":
-        return get_all_books(self)
-    if path.startswith("/api/books/"):
-        book_id = int(path.split("/")[-1])
-        return get_book(self, book_id)
+        # ---- Books ----
+        if path == "/api/books":
+            return get_all_books(self)
+        if path.startswith("/api/books/"):
+            return get_book(self, int(path.split("/")[-1]))
 
- # ---- Librarians ----
-    if path == "/api/librarians":
-        return get_all_librarians(self)
-    if path.startswith("/api/librarians/"):
-        librarian_id = int(path.split("/")[-1])
-        return get_librarian(self, librarian_id)
+        # ---- Librarians ----
+        if path == "/api/librarians":
+            return get_all_librarians(self)
+        if path.startswith("/api/librarians/"):
+            return get_librarian(self, int(path.split("/")[-1]))
 
-# ---- Bookshelves ----
-    if path == "/api/bookshelves":
-        return get_all_bookshelves(self)
-    if path.startswith("/api/bookshelves/"):
-        bookshelf_id = int(path.split("/")[-1])
-        return get_bookshelf(self, bookshelf_id)
+        # ---- Bookshelves ----
+        if path == "/api/bookshelves":
+            return get_all_bookshelves(self)
+        if path.startswith("/api/bookshelves/"):
+            return get_bookshelf(self, int(path.split("/")[-1]))
 
-    return send_404(self)
+        return send_404(self)
 
-# Consolidated POST Handler
-def do_POST(self):
-    if self.path == "/api/books":
-        return create_book(self)
-    if self.path == "/api/librarians":
-        return create_librarian(self)
-    if self.path == "/api/bookshelves":
-        return create_bookshelf(self)
-    
-    return send_404(self)
+    # -------------------------------
+    # POST
+    # -------------------------------
+    def do_POST(self):
+        if self.path == "/api/books":
+            return create_book(self)
+        if self.path == "/api/librarians":
+            return create_librarian(self)
+        if self.path == "/api/bookshelves":
+            return create_bookshelf(self)
 
-# Consolidated PUT Handler
-def do_PUT(self):
-    path = self.path
-    if path.startswith("/api/books/"):
-        return update_book(self, int(path.split("/")[-1]))
-    if path.startswith("/api/librarians/"):
-        return update_librarian(self, int(path.split("/")[-1]))
-    if path.startswith("/api/bookshelves/"):
-        return update_bookshelf(self, int(path.split("/")[-1]))
-    
-    return send_404(self)
+        return send_404(self)
 
-# Consolidated DELETE Handler
-def do_DELETE(self):
-    path = self.path
-    if path.startswith("/api/books/"):
-        return delete_book(self, int(path.split("/")[-1]))
-    if path.startswith("/api/librarians/"):
-        return delete_librarian(self, int(path.split("/")[-1]))
-    if path.startswith("/api/bookshelves/"):
-        return delete_bookshelf(self, int(path.split("/")[-1]))
-    
-    return send_404(self)
+    # -------------------------------
+    # PUT
+    # -------------------------------
+    def do_PUT(self):
+        path = self.path
+        if path.startswith("/api/books/"):
+            return update_book(self, int(path.split("/")[-1]))
+        if path.startswith("/api/librarians/"):
+            return update_librarian(self, int(path.split("/")[-1]))
+        if path.startswith("/api/bookshelves/"):
+            return update_bookshelf(self, int(path.split("/")[-1]))
 
-def log_message(self, format, *args):
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    print(f"[{timestamp}] [LibraryServer] {format % args}")
+        return send_404(self)
+
+    # -------------------------------
+    # DELETE
+    # -------------------------------
+    def do_DELETE(self):
+        path = self.path
+        if path.startswith("/api/books/"):
+            return delete_book(self, int(path.split("/")[-1]))
+        if path.startswith("/api/librarians/"):
+            return delete_librarian(self, int(path.split("/")[-1]))
+        if path.startswith("/api/bookshelves/"):
+            return delete_bookshelf(self, int(path.split("/")[-1]))
+
+        return send_404(self)
+
+    # -------------------------------
+    # LOGGING
+    # -------------------------------
+    def log_message(self, format, *args):
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        print(f"[{timestamp}] [LibraryServer] {format % args}")
