@@ -1,0 +1,55 @@
+<div class="max-w-3xl mx-auto p-6">
+
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-3xl font-bold">Library Management System</h1>
+    <a href="/home" data-link class="text-sm text-blue-600 underline">← Back to Home</a>
+  </div>
+    
+  <!--Books Form -->
+  <div class="bg-white p-5 rounded shadow mb-8">
+    <h2 class="font-semibold mb-3 text-lg">Add New Book</h2>
+    <form id="booksForm" class="space-y-3">
+      <input type="text" id="bookTitle" placeholder="Book Title" required class="w-full border rounded px-3 py-2">
+      <input type="text" id="bookAuthor" placeholder="Author" required class="w-full border rounded px-3 py-2">
+      <input type="text" id="bookISBN" placeholder="ISBN" class="w-full border rounded px-3 py-2">
+      <input type="date" id="bookPublishedDate" class="w-full border rounded px-3 py-2">
+      <input type="number" id="bookTotalCopies" placeholder="Total Copies" min="1" class="w-full border rounded px-3 py-2">
+      <input type="number" id="bookAvailableCopies" placeholder="Available Copies" min="0" class="w-full border rounded px-3 py-2">
+      
+      <div class="flex space-x-2">
+        <button type="submit" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">Add Book</button>
+        <button type="button" id="cancelBookBtn" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-2 rounded hidden">Cancel</button>
+      </div>
+    </form>
+  </div>  
+  <!-- Books Table -->
+  <div class="bg-white p-5 rounded shadow">
+    <h2 class="font-semibold mb-4 text-lg">All Books</h2>
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="text-center py-4">
+      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
+    </div>
+    <!-- Books Table Container-->
+    <div id="booksTableContainer" class="overflow-x-auto hidden">
+      <table class="min-w-full text-left border">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="px-3 py-2">ID</th>
+            <th class="px-3 py-2">Title</th>
+            <th class="px-3 py-2">Author</th>
+            <th class="px-3 py-2">ISBN</th>
+            <th class="px-3 py-2">Available</th>
+            <th class="px-3 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="booksTableBody"></tbody>
+      </table>
+            <p id="noBooks" class="text-center text-gray-500 mt-3 hidden">
+        No books found. Add one using the form above.
+      </p>
+    </div>
+  </div>
+  <!-- Alert container -->
+  <div id="alertContainer" class="fixed top-4 right-4 space-y-2 z-50"></div>
+</div>
+
