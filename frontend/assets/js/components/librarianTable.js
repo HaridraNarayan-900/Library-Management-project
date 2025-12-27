@@ -1,5 +1,5 @@
 // components/librarianTable.js
-import { $ } from "../utils/doms.js";
+import { $ } from "../utils/dom.js";
 import { editLibrarian, deleteLibrarian } from "../controllers/librarianController.js";
 // ================================
 // LIBRARIANS TABLE RENDERER

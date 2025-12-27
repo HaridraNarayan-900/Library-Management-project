@@ -1,23 +1,23 @@
 // components/bookshelfTable.js
-import { $ } from "../utils/doms.js";
+import { $ } from "../utils/dom.js";
 import { editbookshelf, deletebookshelf } from "../controllers/bookshelfController.js";
 // ================================
 // bookshelfS TABLE RENDERER
 // ================================
-export function renderbookshelfTable(bookshelfs) {
+export function renderbookshelfTable(bookshelves) {
   const body = $("bookshelfsTableBody");
   const nobookshelfs = $("nobookshelfs");
 
   body.innerHTML = "";
   
-  if (bookshelfs.length === 0) {
+  if (bookshelves.length === 0) {
     nobookshelfs.style.display = "block";
     return;
   }
 
   nobookshelfs.style.display = "none";
 
-  bookshelfs.forEach(bookshelf => {
+  bookshelves.forEach(bookshelf => {
     const row = document.createElement("tr");
     row.className = "border-b hover:bg-gray-50";
 

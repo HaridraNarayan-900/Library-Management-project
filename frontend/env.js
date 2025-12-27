@@ -1,5 +1,5 @@
 // For Library Management
-window.ENV = {
+window.ENV ={
   APP_NAME: "Library Management System",
-  API_BASE_URL: "/api/books/librarians/bookshelves"
+  API_BASE_URL: "/api"  // base URL for all API requests
 };

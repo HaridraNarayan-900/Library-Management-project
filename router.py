@@ -27,7 +27,7 @@ def handle_ui_routes(handler, path):
         return True
 
     if path.endswith(".html"):
-        stripped = path.replace(".html", "")
+        stripped = path[:-5]
         if stripped in FRONTEND_ROUTES:
             serve_static(handler, "frontend/pages/index.html")
             return True
@@ -35,12 +35,22 @@ def handle_ui_routes(handler, path):
     if path.startswith("/frontend/"):
         serve_static(handler, path.lstrip("/"))
         return True
-    
-    if path == "/openapi.yaml/":
-        serve_static(handler,"openapi.yaml")
+
+    if path == "/openapi.yaml":
+        serve_static(handler, "openapi.yaml")
         return True
-    
+
     return False
+
+
+# -------------------------------
+# HELPERS
+# -------------------------------
+def get_id_from_path(path):
+    try:
+        return int(path.rstrip("/").split("/")[-1])
+    except (ValueError, IndexError):
+        return None
 
 
 # -------------------------------
@@ -48,9 +58,13 @@ def handle_ui_routes(handler, path):
 # -------------------------------
 class Router(BaseHTTPRequestHandler):
 
+    # Apply CORS headers to ALL responses
+    def end_headers(self):
+        add_cors_headers(self)
+        super().end_headers()
+
     def do_OPTIONS(self):
         self.send_response(200)
-        add_cors_headers(self)
         self.end_headers()
 
     # -------------------------------
@@ -66,20 +80,32 @@ class Router(BaseHTTPRequestHandler):
         # ---- Books ----
         if path == "/api/books":
             return get_all_books(self)
+
         if path.startswith("/api/books/"):
-            return get_book(self, int(path.split("/")[-1]))
+            book_id = get_id_from_path(path)
+            if book_id is None:
+                return send_404(self)
+            return get_book(self, book_id)
 
         # ---- Librarians ----
         if path == "/api/librarians":
             return get_all_librarians(self)
+
         if path.startswith("/api/librarians/"):
-            return get_librarian(self, int(path.split("/")[-1]))
+            librarian_id = get_id_from_path(path)
+            if librarian_id is None:
+                return send_404(self)
+            return get_librarian(self, librarian_id)
 
         # ---- Bookshelves ----
         if path == "/api/bookshelves":
             return get_all_bookshelves(self)
+
         if path.startswith("/api/bookshelves/"):
-            return get_bookshelf(self, int(path.split("/")[-1]))
+            shelf_id = get_id_from_path(path)
+            if shelf_id is None:
+                return send_404(self)
+            return get_bookshelf(self, shelf_id)
 
         return send_404(self)
 
@@ -87,11 +113,15 @@ class Router(BaseHTTPRequestHandler):
     # POST
     # -------------------------------
     def do_POST(self):
-        if self.path == "/api/books":
+        path = urlparse(self.path).path
+
+        if path == "/api/books":
             return create_book(self)
-        if self.path == "/api/librarians":
+
+        if path == "/api/librarians":
             return create_librarian(self)
-        if self.path == "/api/bookshelves":
+
+        if path == "/api/bookshelves":
             return create_bookshelf(self)
 
         return send_404(self)
@@ -100,13 +130,25 @@ class Router(BaseHTTPRequestHandler):
     # PUT
     # -------------------------------
     def do_PUT(self):
-        path = self.path
+        path = urlparse(self.path).path
+
         if path.startswith("/api/books/"):
-            return update_book(self, int(path.split("/")[-1]))
+            book_id = get_id_from_path(path)
+            if book_id is None:
+                return send_404(self)
+            return update_book(self, book_id)
+
         if path.startswith("/api/librarians/"):
-            return update_librarian(self, int(path.split("/")[-1]))
+            librarian_id = get_id_from_path(path)
+            if librarian_id is None:
+                return send_404(self)
+            return update_librarian(self, librarian_id)
+
         if path.startswith("/api/bookshelves/"):
-            return update_bookshelf(self, int(path.split("/")[-1]))
+            shelf_id = get_id_from_path(path)
+            if shelf_id is None:
+                return send_404(self)
+            return update_bookshelf(self, shelf_id)
 
         return send_404(self)
 
@@ -114,13 +156,25 @@ class Router(BaseHTTPRequestHandler):
     # DELETE
     # -------------------------------
     def do_DELETE(self):
-        path = self.path
+        path = urlparse(self.path).path
+
         if path.startswith("/api/books/"):
-            return delete_book(self, int(path.split("/")[-1]))
+            book_id = get_id_from_path(path)
+            if book_id is None:
+                return send_404(self)
+            return delete_book(self, book_id)
+
         if path.startswith("/api/librarians/"):
-            return delete_librarian(self, int(path.split("/")[-1]))
+            librarian_id = get_id_from_path(path)
+            if librarian_id is None:
+                return send_404(self)
+            return delete_librarian(self, librarian_id)
+
         if path.startswith("/api/bookshelves/"):
-            return delete_bookshelf(self, int(path.split("/")[-1]))
+            shelf_id = get_id_from_path(path)
+            if shelf_id is None:
+                return send_404(self)
+            return delete_bookshelf(self, shelf_id)
 
         return send_404(self)
 
