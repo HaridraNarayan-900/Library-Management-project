@@ -1,6 +1,6 @@
 // components/bookTable.js
 import { $ } from "../utils/dom.js";
-import { editBook, deleteBook} from "../controllers/bookController.js";
+import { editBook, deleteBook } from "../controllers/bookController.js";
 
 // ================================
 // BOOKS TABLE RENDERER
@@ -9,9 +9,11 @@ export function renderBookTable(books) {
   const body = $("booksTableBody");
   const noBooks = $("noBooks");
 
+  if (!body || !noBooks) return;
+
   body.innerHTML = "";
-  
-  if (books.length === 0) {
+
+  if (!books || books.length === 0) {
     noBooks.style.display = "block";
     return;
   }
@@ -23,12 +25,12 @@ export function renderBookTable(books) {
     row.className = "border-b hover:bg-gray-50";
 
     row.innerHTML = `
-      <td class="px-4 py-3 text-sm font-medium text-gray-900">${book.id?.slice(-8) || ''}</td>
-      <td class="px-4 py-3 text-sm font-medium text-blue-600">${book.title || ''}</td>
-      <td class="px-4 py-3 text-sm text-gray-700">${book.author || ''}</td>
-      <td class="px-4 py-3 text-sm">${book.isbn || ''}</td>
+      <td class="px-4 py-3 text-sm font-medium text-gray-900">${book.id?.slice(-8) ?? ''}</td>
+      <td class="px-4 py-3 text-sm font-medium text-blue-600">${book.title ?? ''}</td>
+      <td class="px-4 py-3 text-sm text-gray-700">${book.author ?? ''}</td>
+      <td class="px-4 py-3 text-sm">${book.isbn ?? ''}</td>
       <td class="px-4 py-3">
-        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">${book.category || 'General'}</span>
+        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">${book.category ?? 'General'}</span>
       </td>
       <td class="px-4 py-3 text-sm font-medium">
         <span class="text-green-600">${book.available_copies ?? 0}</span> / 
@@ -44,8 +46,7 @@ export function renderBookTable(books) {
 
     row.querySelector("[data-edit]").onclick = () => editBook(book.id);
     row.querySelector("[data-delete]").onclick = () => deleteBook(book.id);
-    
+
     body.appendChild(row);
   });
 }
-

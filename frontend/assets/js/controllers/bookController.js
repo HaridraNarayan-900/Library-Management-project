@@ -1,10 +1,9 @@
-// frontend/assets/js/controllers/bookController.js
-
+// controllers/bookController.js
 import {
   apiGetAll,
-  apiGetOne, 
-  apiCreate, 
-  apiUpdate, 
+  apiGetOne,
+  apiCreate,
+  apiUpdate,
   apiDelete,
 } from "../services/bookService.js";
 
@@ -14,40 +13,39 @@ import { resetForm, fillForm } from "../components/bookForm.js";
 import { setState, getState } from "../state/store.js";
 import { $ } from "../utils/dom.js";
 
-// Initialize the controller safely after DOM is loaded
-document.addEventListener("DOMContentLoaded", () => {
-  initBookController();
-});
+// Initialize controller
+document.addEventListener("DOMContentLoaded", () => initBookController());
 
-// ================================
-// BOOK CONTROLLER
-// ================================
 export function initBookController() {
-  // Load all books initially
   loadBooks();
 
-  // --- Handle Form Submission ---
   const bookForm = $("bookForm");
   if (bookForm) {
     bookForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const data = {
-        name: $("name").value.trim(),
-        email: $("email").value.trim(),
-        course: $("course").value.trim(),
-        year: $("year").value.trim()
+        title: $("bookTitle").value.trim(),
+        author: $("bookAuthor").value.trim(),
+        isbn: $("bookIsbn").value.trim(),
+        category: $("bookCategory").value.trim(),
+        total_copies: Number($("bookTotalCopies").value),
+        available_copies: Number($("bookAvailableCopies").value),
+        published_year: $("bookPublishedYear").value.trim(),
       };
 
       const { editingId } = getState();
-      editingId
-        ? await updateBook(editingId, data)
-        : await createNewBook(data);
+      try {
+        editingId
+          ? await updateBook(editingId, data)
+          : await createNewBook(data);
+      } catch {
+        showAlert("Operation failed", "error");
+      }
     });
   }
 
-  // --- Handle Cancel Button ---
-  const cancelBtn = $("cancelBtn");
+  const cancelBtn = $("bookCancelBtn");
   if (cancelBtn) {
     cancelBtn.addEventListener("click", () => {
       setState({ editingId: null });
@@ -55,10 +53,6 @@ export function initBookController() {
     });
   }
 }
-
-// ================================
-// CRUD FUNCTIONS
-// ================================
 
 // Load all books
 export async function loadBooks() {
@@ -68,42 +62,58 @@ export async function loadBooks() {
   if (spinner) spinner.style.display = "block";
   if (table) table.style.display = "none";
 
-  const books = await apiGetAll();
-  setState({ books });
-  renderBookTable(books || []);
-
-  if (spinner) spinner.style.display = "none";
-  if (table) table.style.display = "block";
+  try {
+    const books = await apiGetAll();
+    setState({ books });
+    renderBookTable(books || []);
+  } catch {
+    showAlert("Failed to load books", "error");
+  } finally {
+    if (spinner) spinner.style.display = "none";
+    if (table) table.style.display = "block";
+  }
 }
 
 // Create a new book
 export async function createNewBook(data) {
-  const result = await apiCreate(data);
-  if (result) {
-    showAlert("Book added!");
-    resetForm();
-    loadBooks();
+  try {
+    const result = await apiCreate(data);
+    if (result) {
+      showAlert("Book added!");
+      resetForm();
+      loadBooks();
+    }
+  } catch {
+    showAlert("Failed to add book", "error");
   }
 }
 
 // Load book into form for editing
 export async function editBook(id) {
-  const book = await apiGetOne(id);
-  if (!book) return;
+  try {
+    const book = await apiGetOne(id);
+    if (!book) return;
 
-  setState({ editingId: id });
-  fillForm(book);
-  window.scrollTo({ top: 0, behavior: "smooth" });
+    setState({ editingId: id });
+    fillForm(book);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  } catch {
+    showAlert("Failed to load book data", "error");
+  }
 }
 
 // Update an existing book
 export async function updateBook(id, data) {
-  const result = await apiUpdate(id, data);
-  if (result) {
-    showAlert("Book updated!");
-    resetForm();
-    setState({ editingId: null });
-    loadBooks();
+  try {
+    const result = await apiUpdate(id, data);
+    if (result) {
+      showAlert("Book updated!");
+      resetForm();
+      setState({ editingId: null });
+      loadBooks();
+    }
+  } catch {
+    showAlert("Failed to update book", "error");
   }
 }
 
@@ -111,10 +121,13 @@ export async function updateBook(id, data) {
 export async function deleteBook(id) {
   if (!confirm("Delete this book?")) return;
 
-  const result = await apiDelete(id);
-  if (result) {
-    showAlert("Book deleted!");
-    loadBooks();
+  try {
+    const result = await apiDelete(id);
+    if (result) {
+      showAlert("Book deleted!");
+      loadBooks();
+    }
+  } catch {
+    showAlert("Failed to delete book", "error");
   }
 }
-

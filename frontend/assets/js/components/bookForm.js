@@ -1,16 +1,16 @@
-// components/LibraryForm.js
-import { $, createElement } from "../utils/dom.js";
+// components/bookForm.js
+import { $ } from "../utils/dom.js";
 
 // ================================
-// BOOKS FORM HANDLERS
+// BOOK FORM HANDLERS
 // ================================
-export function resetBookForm() {
+export function resetForm() {
   $("bookForm").reset();
   $("bookSubmitBtn").textContent = "Add Book";
   $("bookCancelBtn").style.display = "none";
 }
 
-export function fillBookForm(book) {
+export function fillForm(book) {
   $("bookTitle").value = book.title || "";
   $("bookAuthor").value = book.author || "";
   $("bookIsbn").value = book.isbn || "";
@@ -18,7 +18,8 @@ export function fillBookForm(book) {
   $("bookTotalCopies").value = book.total_copies ?? 1;
   $("bookAvailableCopies").value = book.available_copies ?? 1;
   $("bookPublishedYear").value = book.published_year || "";
-  
+
   $("bookSubmitBtn").textContent = "Update Book";
   $("bookCancelBtn").style.display = "block";
 }
+
