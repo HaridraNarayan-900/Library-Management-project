@@ -29,9 +29,7 @@ export function renderBookTable(books) {
       <td class="px-4 py-3 text-sm font-medium text-blue-600">${book.title ?? ''}</td>
       <td class="px-4 py-3 text-sm text-gray-700">${book.author ?? ''}</td>
       <td class="px-4 py-3 text-sm">${book.isbn ?? ''}</td>
-      <td class="px-4 py-3">
-        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">${book.category ?? 'General'}</span>
-      </td>
+      <td class="px-4 py-3 text-sm text-gray-700">${book.category ?? 'General'}</td>
       <td class="px-4 py-3 text-sm font-medium">
         <span class="text-green-600">${book.available_copies ?? 0}</span> / 
         <span class="text-gray-600">${book.total_copies ?? 0}</span>
@@ -44,6 +42,7 @@ export function renderBookTable(books) {
       </td>
     `;
 
+    // Attach event handlers
     row.querySelector("[data-edit]").onclick = () => editBook(book.id);
     row.querySelector("[data-delete]").onclick = () => deleteBook(book.id);
 

@@ -2,7 +2,7 @@
 
   <div class="flex items-center justify-between mb-6">
     <h1 class="text-3xl font-bold">Library Management System</h1>
-    <a href="/home" data-link class="text-sm text-blue-600 underline">← Back to Home</a>
+    <a href="/frontend/pages/home.html" data-link class="text-sm text-blue-600 underline">← Back to Home</a>
   </div>
     
   <!-- Bookshelves Form -->
@@ -21,7 +21,7 @@
     </form>
   </div>
   
-  <!-- Library Table -->
+  <!-- Bookshelves Table -->
   <div class="bg-white p-5 rounded shadow">
     <h2 class="font-semibold mb-4 text-lg">All Bookshelves</h2>
 
@@ -29,7 +29,8 @@
     <div id="loadingSpinner" class="text-center py-4">
       <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
     </div>
-    <!-- Bookshelves Table -->
+
+    <!-- Bookshelves Table Container -->
     <div id="bookshelvesTableContainer" class="hidden overflow-x-auto">
       <table class="min-w-full text-left border">
         <thead class="bg-gray-200">
@@ -46,7 +47,7 @@
       </table>
     </div>
   </div>
+
   <!-- Alert container -->
   <div id="alertContainer" class="fixed top-4 right-4 space-y-2 z-50"></div>
 </div>
-

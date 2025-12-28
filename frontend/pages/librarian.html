@@ -2,33 +2,35 @@
 
   <div class="flex items-center justify-between mb-6">
     <h1 class="text-3xl font-bold">Library Management System</h1>
-    <a href="/home" data-link class="text-sm text-blue-600 underline">← Back to Home</a>
+    <a href="/frontend/pages/home.html" data-link class="text-sm text-blue-600 underline">← Back to Home</a>
   </div>
     
   <!-- Librarians Form -->
-    <div class="bg-white p-5 rounded shadow mb-8">
-      <h2 class="font-semibold mb-3 text-lg">Add New Librarian</h2>
-      <form id="librariansForm" class="space-y-3">
-        <input type="text" id="librarianName" placeholder="Full Name" required class="w-full border rounded px-3 py-2">
-        <input type="email" id="librarianEmail" placeholder="Email" required class="w-full border rounded px-3 py-2">
-        <input type="tel" id="librarianPhone" placeholder="Phone" class="w-full border rounded px-3 py-2">
-        <input type="text" id="librarianPosition" placeholder="Position" class="w-full border rounded px-3 py-2">
-      
-        <div class="flex space-x-2">
-          <button type="submit" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">Add Librarian</button>
-          <button type="button" id="cancelLibrarianBtn" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-2 rounded hidden">Cancel</button>
-        </div>
-      </form>
+  <div class="bg-white p-5 rounded shadow mb-8">
+    <h2 class="font-semibold mb-3 text-lg">Add New Librarian</h2>
+    <form id="librariansForm" class="space-y-3">
+      <input type="text" id="librarianName" placeholder="Full Name" required class="w-full border rounded px-3 py-2">
+      <input type="email" id="librarianEmail" placeholder="Email" required class="w-full border rounded px-3 py-2">
+      <input type="tel" id="librarianPhone" placeholder="Phone" class="w-full border rounded px-3 py-2">
+      <input type="text" id="librarianPosition" placeholder="Position" class="w-full border rounded px-3 py-2">
+    
+      <div class="flex space-x-2">
+        <button type="submit" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">Add Librarian</button>
+        <button type="button" id="cancelLibrarianBtn" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-2 rounded hidden">Cancel</button>
+      </div>
+    </form>
   </div>
   
   <!-- Librarians Table -->
   <div class="bg-white p-5 rounded shadow">
-    <h2 class="font-semibold mb-4 text-lg">All Students</h2>
+    <h2 class="font-semibold mb-4 text-lg">All Librarians</h2>
+    
     <!-- Loading Spinner -->
     <div id="loadingSpinner" class="text-center py-4">
       <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
     </div>
-  <!-- Librarians Table Container-->
+
+    <!-- Librarians Table Container -->
     <div id="librariansTableContainer" class="hidden overflow-x-auto">
       <table class="min-w-full text-left border">
         <thead class="bg-gray-200">
@@ -45,6 +47,7 @@
       </table>
     </div>
   </div>
+
   <!-- Alert container -->
   <div id="alertContainer" class="fixed top-4 right-4 space-y-2 z-50"></div>
 </div>
