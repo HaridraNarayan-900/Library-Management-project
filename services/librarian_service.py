@@ -5,9 +5,7 @@ from database.librarian_queries import (
     db_update_librarian,
     db_delete_librarian,
 )
-# -------------------------------
-# LIBRARIAN SERVICES
-# -------------------------------
+
 def service_get_all_librarians():
     return db_get_all_librarians()
 
@@ -17,10 +15,14 @@ def service_get_one_librarian(librarian_id):
 
 
 def service_create_librarian(data):
+    if not isinstance(data, dict):
+        return None
     return db_create_librarian(data)
 
 
 def service_update_librarian(librarian_id, data):
+    if not isinstance(data, dict):
+        return None
     return db_update_librarian(librarian_id, data)
 
 

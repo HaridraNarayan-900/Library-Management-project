@@ -1,3 +1,5 @@
+# Handles incoming HTTP request data (reads JSON from the client)
+
 import json
 
 def parse_json_body(handler):

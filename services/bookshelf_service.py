@@ -5,9 +5,7 @@ from database.bookshelf_queries import (
     db_update_bookshelf,
     db_delete_bookshelf,
 )
-# -------------------------------
-# BOOKSHELF SERVICES
-# -------------------------------
+
 def service_get_all_bookshelves():
     return db_get_all_bookshelves()
 
@@ -17,10 +15,14 @@ def service_get_one_bookshelf(bookshelf_id):
 
 
 def service_create_bookshelf(data):
+    if not isinstance(data, dict):
+        return None
     return db_create_bookshelf(data)
 
 
 def service_update_bookshelf(bookshelf_id, data):
+    if not isinstance(data, dict):
+        return None
     return db_update_bookshelf(bookshelf_id, data)
 
 

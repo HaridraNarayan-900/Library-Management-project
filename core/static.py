@@ -1,3 +1,4 @@
+# core/static.py
 import os
 import mimetypes
 from core.responses import send_404

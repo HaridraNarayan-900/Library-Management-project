@@ -9,20 +9,20 @@ async function safeJson(res) {
 }
 
 // ================================
-// BOOKSHELF API FUNCTIONS
+// bookshelf API FUNCTIONS
 // ================================
 export async function apiGetAll() {
-  const res = await fetch(`${API_BASE_URL}/books`);
+  const res = await fetch(`${API_BASE_URL}/bookshelves`);
   return res.ok ? safeJson(res) : [];
 }
 
 export async function apiGetOne(id) {
-  const res = await fetch(`${API_BASE_URL}/books/${id}`);
+  const res = await fetch(`${API_BASE_URL}/bookshelf/${id}`);
   return res.ok ? safeJson(res) : null;
 }
 
 export async function apiCreate(data) {
-  const res = await fetch(`${API_BASE_URL}/books`, {
+  const res = await fetch(`${API_BASE_URL}/bookshelf`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -31,7 +31,7 @@ export async function apiCreate(data) {
 }
 
 export async function apiUpdate(id, data) {
-  const res = await fetch(`${API_BASE_URL}/books/${id}`, {
+  const res = await fetch(`${API_BASE_URL}/bookshelf/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
@@ -40,7 +40,7 @@ export async function apiUpdate(id, data) {
 }
 
 export async function apiDelete(id) {
-  const res = await fetch(`${API_BASE_URL}/books/${id}`, {
+  const res = await fetch(`${API_BASE_URL}/bookshelf/${id}`, {
     method: "DELETE",
   });
   return res.ok;
