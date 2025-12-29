@@ -12,12 +12,12 @@
       <input type="text" id="bookTitle" placeholder="Book Title" required class="w-full border rounded px-3 py-2">
       <input type="text" id="bookAuthor" placeholder="Author" required class="w-full border rounded px-3 py-2">
       <input type="text" id="bookISBN" placeholder="ISBN" class="w-full border rounded px-3 py-2">
-      <input type="date" id="bookPublishedDate" class="w-full border rounded px-3 py-2">
+      <input type="text" id="bookCategory" placeholder="Category" class="w-full border rounded px-3 py-2">
+      <input type="date" id="bookPublishedYear" class="w-full border rounded px-3 py-2">
       <input type="number" id="bookTotalCopies" placeholder="Total Copies" min="1" class="w-full border rounded px-3 py-2">
       <input type="number" id="bookAvailableCopies" placeholder="Available Copies" min="0" class="w-full border rounded px-3 py-2">
-      
       <div class="flex space-x-2">
-        <button type="submit" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">Add Book</button>
+        <button type="submit" id="bookSubmitBtn" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">Add Book</button>
         <button type="button" id="cancelBookBtn" class="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-2 rounded hidden">Cancel</button>
       </div>
     </form>
@@ -41,6 +41,7 @@
             <th class="px-3 py-2">Title</th>
             <th class="px-3 py-2">Author</th>
             <th class="px-3 py-2">ISBN</th>
+            <th class="px-3 py-2">Category</th>
             <th class="px-3 py-2">Available</th>
             <th class="px-3 py-2">Actions</th>
           </tr>

@@ -19,15 +19,15 @@ document.addEventListener("DOMContentLoaded", () => initBookController());
 export function initBookController() {
   loadBooks();
 
-  const bookForm = $("bookForm");
-  if (bookForm) {
-    bookForm.addEventListener("submit", async (e) => {
+  const booksForm = $("booksForm");
+  if (booksForm) {
+    booksForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const data = {
         title: $("bookTitle").value.trim(),
         author: $("bookAuthor").value.trim(),
-        isbn: $("bookIsbn").value.trim(),
+        isbn: $("bookISBN").value.trim(),
         category: $("bookCategory").value.trim(),
         total_copies: Number($("bookTotalCopies").value),
         available_copies: Number($("bookAvailableCopies").value),
@@ -45,7 +45,7 @@ export function initBookController() {
     });
   }
 
-  const cancelBtn = $("bookCancelBtn");
+  const cancelBtn = $("cancelBookBtn");
   if (cancelBtn) {
     cancelBtn.addEventListener("click", () => {
       setState({ editingId: null });
@@ -66,6 +66,7 @@ export async function loadBooks() {
     const books = await apiGetAll();
     setState({ books });
     renderBookTable(books || []);
+    console.log("books list", books)
   } catch {
     showAlert("Failed to load books", "error");
   } finally {

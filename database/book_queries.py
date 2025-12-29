@@ -104,4 +104,4 @@ def db_delete_book(book_id):
             (book_id,)
         )
         conn.commit()
-    return db_delete_book(book_id)
+    return cur.rowcount > 0

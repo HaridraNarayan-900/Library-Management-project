@@ -1,15 +1,12 @@
-// components/bookTable.js
-import { $ } from "../utils/dom.js";
-import { editBook, deleteBook } from "../controllers/bookController.js";
-
-// ================================
-// BOOKS TABLE RENDERER
-// ================================
+// components/bookTable.js - FIXED
 export function renderBookTable(books) {
   const body = $("booksTableBody");
   const noBooks = $("noBooks");
 
-  if (!body || !noBooks) return;
+  if (!body || !noBooks) {
+    console.error("Required elements not found!");
+    return;
+  }
 
   body.innerHTML = "";
 
@@ -25,7 +22,7 @@ export function renderBookTable(books) {
     row.className = "border-b hover:bg-gray-50";
 
     row.innerHTML = `
-      <td class="px-4 py-3 text-sm font-medium text-gray-900">${book.id?.slice(-8) ?? ''}</td>
+      <td class="px-4 py-3 text-sm font-medium text-gray-900">${book.id ?? ''}</td>
       <td class="px-4 py-3 text-sm font-medium text-blue-600">${book.title ?? ''}</td>
       <td class="px-4 py-3 text-sm text-gray-700">${book.author ?? ''}</td>
       <td class="px-4 py-3 text-sm">${book.isbn ?? ''}</td>
@@ -48,4 +45,6 @@ export function renderBookTable(books) {
 
     body.appendChild(row);
   });
+  
+  console.log(`✓ Rendered ${books.length} books`);
 }

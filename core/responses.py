@@ -1,5 +1,4 @@
-# Sends HTTP responses back to the client (JSON or HTML)
-
+# core/responses.py
 import json
 from core.middleware import add_cors_headers
 
@@ -13,6 +12,7 @@ def send_json(handler, status, data):
 def send_404(handler):
     handler.send_response(404)
     add_cors_headers(handler)
-    handler.send_header("Content-Type", "text/html")
+    handler.send_header("Content-Type", "application/json")  # ✅ Changed to JSON
     handler.end_headers()
-    handler.wfile.write(b"<h1>404 Not Found</h1>")
+    error = {"error": "Not found"}  # ✅ Return JSON instead of HTML
+    handler.wfile.write(json.dumps(error).encode("utf-8"))

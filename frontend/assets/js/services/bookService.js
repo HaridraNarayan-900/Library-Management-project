@@ -31,7 +31,7 @@ export async function apiGetAll() {
 // Fetch one book by ID
 export async function apiGetOne(id) {
   try {
-    const res = await fetch(`${API_BASE_URL}/book/${id}`);
+    const res = await fetch(`${API_BASE_URL}/books/${id}`);
     if (!res.ok) return null;
     return await safeJson(res);
   } catch (err) {
@@ -43,7 +43,7 @@ export async function apiGetOne(id) {
 // Create a new book
 export async function apiCreate(data) {
   try {
-    const res = await fetch(`${API_BASE_URL}/book`, {
+    const res = await fetch(`${API_BASE_URL}/books`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -59,7 +59,7 @@ export async function apiCreate(data) {
 // Update a book
 export async function apiUpdate(id, data) {
   try {
-    const res = await fetch(`${API_BASE_URL}/book/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/books/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -75,7 +75,7 @@ export async function apiUpdate(id, data) {
 // Delete a book
 export async function apiDelete(id) {
   try {
-    const res = await fetch(`${API_BASE_URL}/book/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/books/${id}`, {
       method: "DELETE",
     });
     return res.ok;

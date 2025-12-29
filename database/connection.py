@@ -1,5 +1,4 @@
 # database/connection.py
-
 import sqlite3
 
 DB_FILE = "book.db"
@@ -12,48 +11,60 @@ def get_connection():
 def init_database():
     conn = get_connection()
     
-# ================================
-# BOOKS TABLE
-# ================================
+    # ================================
+    # BOOKS TABLE - CORRECT SCHEMA
+    # ================================
     conn.execute("""
         CREATE TABLE IF NOT EXISTS books (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            email TEXT,
-            course TEXT,
-            year TEXT,
+            title TEXT NOT NULL,
+            author TEXT NOT NULL,
+            isbn TEXT,
+            category TEXT,
+            total_copies INTEGER DEFAULT 1,
+            available_copies INTEGER DEFAULT 1,
+            published_year TEXT,
             created_at TEXT,
             updated_at TEXT
         )
     """)
-# ================================
-# LIBRARIANS TABLE
-# ================================
+    
+    # ================================
+    # LIBRARIANS TABLE
+    # ================================
     conn.execute("""
         CREATE TABLE IF NOT EXISTS librarians (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            email TEXT ,
+            name TEXT NOT NULL,
+            email TEXT UNIQUE NOT NULL,
             role TEXT,
             phone TEXT,
             hire_date TEXT,
-            salary INTTEGER DEFAULT 20,
+            salary INTEGER DEFAULT 20000,
             created_at TEXT,
             updated_at TEXT
         )
     """)
-# ================================
-# BOOKSHELVES TABLE
-# ================================
+    
+    # ================================
+    # BOOKSHELVES TABLE
+    # ================================
     conn.execute("""
         CREATE TABLE IF NOT EXISTS bookshelves (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT ,
-            zone TEXT ,
+            name TEXT NOT NULL,
+            zone TEXT,
             capacity INTEGER DEFAULT 50,
-            current_count INTEGER
-    )
+            current_count INTEGER DEFAULT 0,
+            created_at TEXT,
+            updated_at TEXT
+        )
     """)
+    
     conn.commit()
     conn.close()
-    print("✓ Database initialized")
+    print("✓ Database initialized successfully")
+
+# Initialize on import
+if __name__ == "__main__":
+    init_database()
