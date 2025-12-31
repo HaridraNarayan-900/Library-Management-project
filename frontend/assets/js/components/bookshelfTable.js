@@ -1,4 +1,3 @@
-// components/bookshelfTable.js
 import { $ } from "../utils/dom.js";
 import { editBookshelf, deleteBookshelf } from "../controllers/bookshelfController.js";
 
@@ -6,14 +5,14 @@ import { editBookshelf, deleteBookshelf } from "../controllers/bookshelfControll
 // BOOKSHELF TABLE RENDERER
 // ================================
 export function renderBookshelfTable(bookshelves) {
-  const body = $("bookshelvesTableBody"); // Ensure this ID matches your HTML
-  const noBookshelves = $("noBookshelves"); // Ensure this ID matches your HTML
+  const body = $("bookshelvesTableBody");
+  const noBookshelves = $("noBookshelves");
 
   if (!body || !noBookshelves) return;
 
   body.innerHTML = "";
 
-  if (bookshelves.length === 0) {
+  if (!bookshelves || bookshelves.length === 0) {
     noBookshelves.style.display = "block";
     return;
   }
@@ -25,12 +24,12 @@ export function renderBookshelfTable(bookshelves) {
     row.className = "border-b hover:bg-gray-50";
 
     row.innerHTML = `
-      <td class="px-4 py-3 text-sm font-medium text-gray-900">${bookshelf.id?.slice(-8) || ''}</td>
-      <td class="px-4 py-3">${bookshelf.name || ''}</td>
-      <td class="px-4 py-3">${bookshelf.zone || ''}</td>
+      <td class="px-4 py-3 text-sm font-medium text-gray-900">${bookshelf.id?.slice(-8) ?? ''}</td>
+      <td class="px-4 py-3">${bookshelf.name ?? ''}</td>
+      <td class="px-4 py-3">${bookshelf.zone ?? ''}</td>
       <td class="px-4 py-3">${bookshelf.capacity ?? 0}</td>
       <td class="px-4 py-3">${bookshelf.current_count ?? 0}</td>
-      <td class="px-4 py-3">${bookshelf.location || ''}</td>
+      <td class="px-4 py-3">${bookshelf.location ?? ''}</td>
       <td class="px-4 py-3 text-right space-x-2">
         <button class="bg-yellow-400 hover:bg-yellow-500 text-black py-1 px-3 rounded text-sm font-medium transition"
                 data-edit="${bookshelf.id}">Edit</button>
@@ -39,11 +38,9 @@ export function renderBookshelfTable(bookshelves) {
       </td>
     `;
 
-    // Attach event handlers
     row.querySelector("[data-edit]").onclick = () => editBookshelf(bookshelf.id);
     row.querySelector("[data-delete]").onclick = () => deleteBookshelf(bookshelf.id);
 
     body.appendChild(row);
   });
 }
-

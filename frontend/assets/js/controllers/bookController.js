@@ -1,4 +1,3 @@
-// controllers/bookController.js
 import {
   apiGetAll,
   apiGetOne,
@@ -66,7 +65,6 @@ export async function loadBooks() {
     const books = await apiGetAll();
     setState({ books });
     renderBookTable(books || []);
-    console.log("books list", books)
   } catch {
     showAlert("Failed to load books", "error");
   } finally {
@@ -132,3 +130,4 @@ export async function deleteBook(id) {
     showAlert("Failed to delete book", "error");
   }
 }
+

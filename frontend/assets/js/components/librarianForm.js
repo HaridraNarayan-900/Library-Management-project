@@ -1,25 +1,20 @@
-// frontend/assets/js/components/librarianForm.js
 import { $ } from "../utils/dom.js";
 
 // ================================
 // LIBRARIAN FORM HANDLERS
 // ================================
 
-// Reset the librarian form to default state
 export function resetLibrarianForm() {
-  const form = $("librarianForm");
+  const form = $("librariansForm");
   if (form) form.reset();
 
-  // Reset submit button text
   const submitBtn = $("librarianSubmitBtn");
   if (submitBtn) submitBtn.textContent = "Add Librarian";
 
-  // Hide cancel button
-  const cancelBtn = $("librarianCancelBtn");
+  const cancelBtn = $("cancelLibrarianBtn");
   if (cancelBtn) cancelBtn.style.display = "none";
 }
 
-// Fill the librarian form for editing
 export function fillLibrarianForm(librarian) {
   if (!librarian) return;
 
@@ -30,11 +25,10 @@ export function fillLibrarianForm(librarian) {
   $("librarianHireDate").value = librarian.hire_date || "";
   $("librarianSalary").value = librarian.salary ?? 0;
 
-  // Update button text for editing mode
   const submitBtn = $("librarianSubmitBtn");
   if (submitBtn) submitBtn.textContent = "Update Librarian";
 
-  // Show cancel button when editing
-  const cancelBtn = $("librarianCancelBtn");
+  const cancelBtn = $("cancelLibrarianBtn");
   if (cancelBtn) cancelBtn.style.display = "block";
 }
+

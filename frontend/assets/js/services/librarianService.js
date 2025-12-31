@@ -1,5 +1,3 @@
-// frontend/assets/js/services/librarianService.js
-
 const API_BASE_URL = window.ENV?.API_BASE_URL || "/api";
 
 // Helper: safely parse JSON
@@ -31,7 +29,7 @@ export async function apiGetAll() {
 // Fetch one librarian by ID
 export async function apiGetOne(id) {
   try {
-    const res = await fetch(`${API_BASE_URL}/librarian/${id}`);
+    const res = await fetch(`${API_BASE_URL}/librarians/${id}`);
     if (!res.ok) return null;
     return await safeJson(res);
   } catch (err) {
@@ -43,7 +41,7 @@ export async function apiGetOne(id) {
 // Create a new librarian
 export async function apiCreate(data) {
   try {
-    const res = await fetch(`${API_BASE_URL}/librarian`, {
+    const res = await fetch(`${API_BASE_URL}/librarians`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -59,7 +57,7 @@ export async function apiCreate(data) {
 // Update a librarian
 export async function apiUpdate(id, data) {
   try {
-    const res = await fetch(`${API_BASE_URL}/librarian/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/librarians/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
@@ -75,7 +73,7 @@ export async function apiUpdate(id, data) {
 // Delete a librarian
 export async function apiDelete(id) {
   try {
-    const res = await fetch(`${API_BASE_URL}/librarian/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/librarians/${id}`, {
       method: "DELETE",
     });
     return res.ok;

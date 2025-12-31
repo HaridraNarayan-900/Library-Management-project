@@ -1,14 +1,13 @@
-// controllers/librarianController.js
 import {
   apiGetAll,
   apiGetOne,
   apiCreate,
   apiUpdate,
-  apiDelete
+  apiDelete,
 } from "../services/librarianService.js";
 
 import { showAlert } from "../components/Alert.js";
-import { renderLibrariansTable } from "../components/librarianTable.js"; // plural naming
+import { renderLibrariansTable } from "../components/librarianTable.js";
 import { resetLibrarianForm, fillLibrarianForm } from "../components/librarianForm.js";
 import { setState, getState } from "../state/store.js";
 import { $ } from "../utils/dom.js";
@@ -19,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => initLibrarianController());
 export function initLibrarianController() {
   loadLibrarians();
 
-  const form = $("librarianForm");
+  const form = $("librariansForm");
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -27,10 +26,8 @@ export function initLibrarianController() {
       const data = {
         name: $("librarianName").value.trim(),
         email: $("librarianEmail").value.trim(),
-        role: $("librarianRole").value.trim(),
         phone: $("librarianPhone").value.trim(),
-        hire_date: $("librarianHireDate").value.trim(),
-        salary: Number($("librarianSalary").value),
+        position: $("librarianPosition").value.trim(),
       };
 
       const { editingId } = getState();
@@ -38,13 +35,13 @@ export function initLibrarianController() {
         editingId 
           ? await updateLibrarian(editingId, data) 
           : await createNewLibrarian(data);
-      } catch (error) {
+      } catch {
         showAlert("Operation failed", "error");
       }
     });
   }
 
-  const cancelBtn = $("librarianCancelBtn");
+  const cancelBtn = $("cancelLibrarianBtn");
   if (cancelBtn) {
     cancelBtn.addEventListener("click", () => {
       setState({ editingId: null });
@@ -65,7 +62,7 @@ export async function loadLibrarians() {
     const librarians = await apiGetAll();
     setState({ librarians });
     renderLibrariansTable(librarians || []);
-  } catch (error) {
+  } catch {
     showAlert("Failed to load librarians", "error");
   } finally {
     if (spinner) spinner.style.display = "none";
@@ -130,5 +127,3 @@ export async function deleteLibrarian(id) {
     showAlert("Failed to delete librarian", "error");
   }
 }
-
-

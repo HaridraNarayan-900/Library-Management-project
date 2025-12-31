@@ -11,9 +11,9 @@ def get_connection():
 def init_database():
     conn = get_connection()
     
-    # ================================
-    # BOOKS TABLE - CORRECT SCHEMA
-    # ================================
+    # -------------------------------
+    # BOOKS TABLE
+    # -------------------------------
     conn.execute("""
         CREATE TABLE IF NOT EXISTS books (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -29,9 +29,9 @@ def init_database():
         )
     """)
     
-    # ================================
+    # -------------------------------
     # LIBRARIANS TABLE
-    # ================================
+    # -------------------------------
     conn.execute("""
         CREATE TABLE IF NOT EXISTS librarians (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -46,9 +46,9 @@ def init_database():
         )
     """)
     
-    # ================================
+    # -------------------------------
     # BOOKSHELVES TABLE
-    # ================================
+    # -------------------------------
     conn.execute("""
         CREATE TABLE IF NOT EXISTS bookshelves (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,6 +56,7 @@ def init_database():
             zone TEXT,
             capacity INTEGER DEFAULT 50,
             current_count INTEGER DEFAULT 0,
+            location TEXT,
             created_at TEXT,
             updated_at TEXT
         )
@@ -65,6 +66,7 @@ def init_database():
     conn.close()
     print("✓ Database initialized successfully")
 
-# Initialize on import
+
+# Initialize DB if run directly
 if __name__ == "__main__":
     init_database()

@@ -8,21 +8,18 @@
 
     <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135755.png" type="image/png">
 
-
-
     <!-- Tailwind -->
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <!-- Beautiful, attention-grabbing font: Outfit -->
+    <!-- Outfit font -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <!-- Project CSS -->
     <link rel="stylesheet" href="/frontend/assets/css/style.css">
 
-    <!-- Apply Outfit globally -->
     <style>
         body {
             font-family: "Outfit", sans-serif;
@@ -30,9 +27,6 @@
         }
     </style>
 </head>
-
-
-
 
 <body class="bg-gray-100 min-h-screen flex flex-col">
 
@@ -42,7 +36,7 @@
     <!-- Header -->
     <div id="header"></div>
 
-    <!-- SPA Root Container -->
+    <!-- SPA Root -->
     <main id="app" class="max-w-2xl mx-auto p-6 flex-grow"></main>
 
     <!-- Footer -->
@@ -53,7 +47,7 @@
         import { loadComponent } from "/frontend/assets/js/utils/loadComponent.js";
         import { initRouterEvents, router } from "/frontend/assets/js/router/viewRouter.js";
 
-        // Load header/footer templates
+        // Load SPA templates
         loadComponent("#header", "/frontend/assets/js/components/Header.html");
         loadComponent("#footer", "/frontend/assets/js/components/Footer.html");
 
@@ -62,5 +56,4 @@
     </script>
 
 </body>
-
 </html>

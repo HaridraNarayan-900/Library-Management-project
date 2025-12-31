@@ -1,9 +1,8 @@
-// components/librarianTable.js
 import { $ } from "../utils/dom.js";
 import { editLibrarian, deleteLibrarian } from "../controllers/librarianController.js";
 
 // ================================
-// LIBRARIANS TABLE RENDERER
+// LIBRARIAN TABLE RENDERER
 // ================================
 export function renderLibrariansTable(librarians) {
   const body = $("librariansTableBody");
@@ -25,7 +24,7 @@ export function renderLibrariansTable(librarians) {
     row.className = "border-b hover:bg-gray-50";
 
     row.innerHTML = `
-      <td class="px-4 py-3 text-sm font-medium text-gray-900">${librarian.id?.slice(-8) ?? ''}</td>
+      <td class="px-4 py-3 text-sm font-medium text-gray-900">${librarian.id ?? ''}</td>
       <td class="px-4 py-3">
         <div class="font-medium text-gray-900">${librarian.name ?? ''}</div>
         <div class="text-sm text-gray-500">${librarian.email ?? ''}</div>

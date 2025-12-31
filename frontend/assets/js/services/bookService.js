@@ -1,5 +1,3 @@
-// frontend/assets/js/services/bookService.js
-
 const API_BASE_URL = window.ENV?.API_BASE_URL || "/api";
 
 // Helper: safely parse JSON
@@ -84,5 +82,4 @@ export async function apiDelete(id) {
     return false;
   }
 }
-
 

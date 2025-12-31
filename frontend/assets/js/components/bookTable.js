@@ -1,4 +1,9 @@
-// components/bookTable.js - FIXED
+import { $ } from "../utils/dom.js";
+import { editBook, deleteBook } from "../controllers/bookController.js";
+
+// ================================
+// BOOK TABLE RENDERER
+// ================================
 export function renderBookTable(books) {
   const body = $("booksTableBody");
   const noBooks = $("noBooks");
@@ -39,12 +44,9 @@ export function renderBookTable(books) {
       </td>
     `;
 
-    // Attach event handlers
     row.querySelector("[data-edit]").onclick = () => editBook(book.id);
     row.querySelector("[data-delete]").onclick = () => deleteBook(book.id);
 
     body.appendChild(row);
   });
-  
-  console.log(`✓ Rendered ${books.length} books`);
 }

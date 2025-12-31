@@ -1,4 +1,3 @@
-// controllers/bookshelfController.js
 import {
   apiGetAll,
   apiGetOne,
@@ -9,48 +8,34 @@ import {
 
 import { showAlert } from "../components/Alert.js";
 import { renderBookshelfTable } from "../components/bookshelfTable.js";
-import {
-  resetBookshelfForm,
-  fillBookshelfForm,
-} from "../components/bookshelfForm.js";
-
+import { resetBookshelfForm, fillBookshelfForm } from "../components/bookshelfForm.js";
 import { setState, getState } from "../state/store.js";
 import { $ } from "../utils/dom.js";
 
-// ================================
-// INIT CONTROLLER
-// ================================
-document.addEventListener("DOMContentLoaded", () => {
-  initBookshelfController();
-});
+// Initialize
+document.addEventListener("DOMContentLoaded", () => initBookshelfController());
 
 export function initBookshelfController() {
   loadBookshelves();
 
-  const form = $("bookshelfForm");
+  const form = $("bookshelvesForm");
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const data = {
         name: $("bookshelfName").value.trim(),
-        zone: $("bookshelfZone").value.trim(),
+        location: $("bookshelfLocation").value.trim(),
         capacity: Number($("bookshelfCapacity").value),
         current_count: Number($("bookshelfCurrentCount").value),
-        location: $("bookshelfLocation").value.trim(),
       };
 
       const { editingId } = getState();
-
-      if (editingId) {
-        await updateBookshelf(editingId, data);
-      } else {
-        await createBookshelf(data);
-      }
+      editingId ? await updateBookshelf(editingId, data) : await createBookshelf(data);
     });
   }
 
-  const cancelBtn = $("bookshelfCancelBtn");
+  const cancelBtn = $("cancelBookshelfBtn");
   if (cancelBtn) {
     cancelBtn.addEventListener("click", () => {
       setState({ editingId: null });
@@ -58,10 +43,6 @@ export function initBookshelfController() {
     });
   }
 }
-
-// ================================
-// CRUD FUNCTIONS
-// ================================
 
 // Load all bookshelves
 export async function loadBookshelves() {
@@ -75,7 +56,7 @@ export async function loadBookshelves() {
     const bookshelves = await apiGetAll();
     setState({ bookshelves });
     renderBookshelfTable(bookshelves || []);
-  } catch (error) {
+  } catch {
     showAlert("Failed to load bookshelves", "error");
   } finally {
     if (spinner) spinner.style.display = "none";
@@ -83,7 +64,7 @@ export async function loadBookshelves() {
   }
 }
 
-// Create new bookshelf
+// Create
 export async function createBookshelf(data) {
   try {
     const result = await apiCreate(data);
@@ -92,12 +73,12 @@ export async function createBookshelf(data) {
       resetBookshelfForm();
       loadBookshelves();
     }
-  } catch (error) {
+  } catch {
     showAlert("Failed to add bookshelf", "error");
   }
 }
 
-// Load a bookshelf into the form for editing
+// Edit
 export async function editBookshelf(id) {
   try {
     const bookshelf = await apiGetOne(id);
@@ -105,29 +86,28 @@ export async function editBookshelf(id) {
 
     setState({ editingId: id });
     fillBookshelfForm(bookshelf);
-
     window.scrollTo({ top: 0, behavior: "smooth" });
-  } catch (error) {
+  } catch {
     showAlert("Failed to load bookshelf data", "error");
   }
 }
 
-// Update an existing bookshelf
+// Update
 export async function updateBookshelf(id, data) {
   try {
     const result = await apiUpdate(id, data);
     if (result) {
       showAlert("Bookshelf updated successfully!");
-      setState({ editingId: null });
       resetBookshelfForm();
+      setState({ editingId: null });
       loadBookshelves();
     }
-  } catch (error) {
+  } catch {
     showAlert("Failed to update bookshelf", "error");
   }
 }
 
-// Delete a bookshelf
+// Delete
 export async function deleteBookshelf(id) {
   if (!confirm("Delete this bookshelf?")) return;
 
@@ -137,8 +117,7 @@ export async function deleteBookshelf(id) {
       showAlert("Bookshelf deleted successfully!");
       loadBookshelves();
     }
-  } catch (error) {
+  } catch {
     showAlert("Failed to delete bookshelf", "error");
   }
 }
-

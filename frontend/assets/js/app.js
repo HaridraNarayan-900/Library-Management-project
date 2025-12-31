@@ -1,12 +1,9 @@
-import { initLibrarianController } from "./controllers/librarianController.js";
-import { initBookshelfController } from "./controllers/bookshelfController.js";
-import { initBookController } from "./controllers/bookController.js";
-import { router } from "./router/viewRouter.js";
+// frontend/assets/js/main.js
 
+// Import the router that handles all views and controller initialization
+import { initApp } from "./app.js";
+
+// Initialize the application when the DOM is fully loaded
 window.addEventListener("DOMContentLoaded", () => {
-  router();
-  initLibrarianController();
-  initBookshelfController();
-  initBookController();
-
+  initApp();
 });
