@@ -1,9 +1,9 @@
 import {
-  apiGetAll,
-  apiGetOne,
-  apiCreate,
-  apiUpdate,
-  apiDelete,
+  getAllBookshelves,
+  getBookshelf,
+  createBookshelf,
+  updateBookshelf,
+  deleteBookshelf,
 } from "../services/bookshelfService.js";
 
 import { showAlert } from "../components/Alert.js";
@@ -12,7 +12,7 @@ import { resetBookshelfForm, fillBookshelfForm } from "../components/bookshelfFo
 import { setState, getState } from "../state/store.js";
 import { $ } from "../utils/dom.js";
 
-// Initialize
+// Initialize controller on DOM load
 document.addEventListener("DOMContentLoaded", () => initBookshelfController());
 
 export function initBookshelfController() {
@@ -31,7 +31,13 @@ export function initBookshelfController() {
       };
 
       const { editingId } = getState();
-      editingId ? await updateBookshelf(editingId, data) : await createBookshelf(data);
+      try {
+        editingId
+          ? await handleUpdateBookshelf(editingId, data)
+          : await handleCreateBookshelf(data);
+      } catch {
+        showAlert("Operation failed", "error");
+      }
     });
   }
 
@@ -44,7 +50,9 @@ export function initBookshelfController() {
   }
 }
 
+// ================================
 // Load all bookshelves
+// ================================
 export async function loadBookshelves() {
   const spinner = $("loadingSpinner");
   const tableContainer = $("bookshelvesTableContainer");
@@ -53,7 +61,7 @@ export async function loadBookshelves() {
   if (tableContainer) tableContainer.style.display = "none";
 
   try {
-    const bookshelves = await apiGetAll();
+    const bookshelves = await getAllBookshelves();
     setState({ bookshelves });
     renderBookshelfTable(bookshelves || []);
   } catch {
@@ -64,10 +72,12 @@ export async function loadBookshelves() {
   }
 }
 
-// Create
-export async function createBookshelf(data) {
+// ================================
+// Create new bookshelf
+// ================================
+export async function handleCreateBookshelf(data) {
   try {
-    const result = await apiCreate(data);
+    const result = await createBookshelf(data);
     if (result) {
       showAlert("Bookshelf added successfully!");
       resetBookshelfForm();
@@ -78,10 +88,12 @@ export async function createBookshelf(data) {
   }
 }
 
-// Edit
+// ================================
+// Edit bookshelf
+// ================================
 export async function editBookshelf(id) {
   try {
-    const bookshelf = await apiGetOne(id);
+    const bookshelf = await getBookshelf(id);
     if (!bookshelf) return;
 
     setState({ editingId: id });
@@ -92,10 +104,12 @@ export async function editBookshelf(id) {
   }
 }
 
-// Update
-export async function updateBookshelf(id, data) {
+// ================================
+// Update bookshelf
+// ================================
+export async function handleUpdateBookshelf(id, data) {
   try {
-    const result = await apiUpdate(id, data);
+    const result = await updateBookshelf(id, data);
     if (result) {
       showAlert("Bookshelf updated successfully!");
       resetBookshelfForm();
@@ -107,12 +121,14 @@ export async function updateBookshelf(id, data) {
   }
 }
 
-// Delete
-export async function deleteBookshelf(id) {
+// ================================
+// Delete bookshelf
+// ================================
+export async function handleDeleteBookshelf(id) {
   if (!confirm("Delete this bookshelf?")) return;
 
   try {
-    const result = await apiDelete(id);
+    const result = await deleteBookshelf(id);
     if (result) {
       showAlert("Bookshelf deleted successfully!");
       loadBookshelves();
@@ -121,3 +137,4 @@ export async function deleteBookshelf(id) {
     showAlert("Failed to delete bookshelf", "error");
   }
 }
+

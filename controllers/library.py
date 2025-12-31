@@ -1,4 +1,3 @@
-# controllers/library.py
 from core.responses import send_json, send_404
 from core.request import parse_json_body
 from services.book_service import (
@@ -112,5 +111,7 @@ def delete_bookshelf(handler, bookshelf_id):
     if not service_delete_bookshelf(bookshelf_id):
         return send_404(handler)
     return send_json(handler, 200, {"deleted": True})
+
+
 
 

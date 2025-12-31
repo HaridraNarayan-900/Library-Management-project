@@ -1,4 +1,3 @@
-# router.py
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler
 from urllib.parse import urlparse
@@ -12,42 +11,29 @@ from core.static import serve_static
 from core.responses import send_404
 from core.middleware import add_cors_headers
 
-# -------------------------------
-# UI ROUTES (SPA shell + static)
-# -------------------------------
 FRONTEND_ROUTES = {"/", "/home", "/docs", "/books", "/librarians", "/bookshelves"}
 
 def handle_ui_routes(handler, path):
     if path in FRONTEND_ROUTES:
         serve_static(handler, "frontend/pages/index.html")
         return True
-
     if path.endswith(".html") and path[:-5] in FRONTEND_ROUTES:
         serve_static(handler, "frontend/pages/index.html")
         return True
-
     if path.startswith("/frontend/"):
         serve_static(handler, path.lstrip("/"))
         return True
-
     if path == "/openapi.yaml":
         serve_static(handler, "openapi.yaml")
         return True
-
     return False
 
-# -------------------------------
-# Helpers
-# -------------------------------
 def get_id_from_path(path):
     try:
         return int(path.rstrip("/").split("/")[-1])
     except (ValueError, IndexError):
         return None
 
-# -------------------------------
-# Main Router Class
-# -------------------------------
 class Router(BaseHTTPRequestHandler):
 
     def end_headers(self):
@@ -58,16 +44,11 @@ class Router(BaseHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
 
-    # -------------------------------
-    # GET
-    # -------------------------------
     def do_GET(self):
         path = urlparse(self.path).path
-
         if handle_ui_routes(self, path):
             return
 
-        # Books
         if path == "/api/books":
             return get_all_books(self)
         if path.startswith("/api/books/"):
@@ -76,7 +57,6 @@ class Router(BaseHTTPRequestHandler):
                 return send_404(self)
             return get_book(self, book_id)
 
-        # Librarians
         if path == "/api/librarians":
             return get_all_librarians(self)
         if path.startswith("/api/librarians/"):
@@ -85,7 +65,6 @@ class Router(BaseHTTPRequestHandler):
                 return send_404(self)
             return get_librarian(self, librarian_id)
 
-        # Bookshelves
         if path == "/api/bookshelves":
             return get_all_bookshelves(self)
         if path.startswith("/api/bookshelves/"):
@@ -96,27 +75,18 @@ class Router(BaseHTTPRequestHandler):
 
         return send_404(self)
 
-    # -------------------------------
-    # POST
-    # -------------------------------
     def do_POST(self):
         path = urlparse(self.path).path
-
         if path == "/api/books":
             return create_book(self)
         if path == "/api/librarians":
             return create_librarian(self)
         if path == "/api/bookshelves":
             return create_bookshelf(self)
-
         return send_404(self)
 
-    # -------------------------------
-    # PUT
-    # -------------------------------
     def do_PUT(self):
         path = urlparse(self.path).path
-
         if path.startswith("/api/books/"):
             book_id = get_id_from_path(path)
             if book_id is None:
@@ -137,12 +107,8 @@ class Router(BaseHTTPRequestHandler):
 
         return send_404(self)
 
-    # -------------------------------
-    # DELETE
-    # -------------------------------
     def do_DELETE(self):
         path = urlparse(self.path).path
-
         if path.startswith("/api/books/"):
             book_id = get_id_from_path(path)
             if book_id is None:
@@ -163,9 +129,6 @@ class Router(BaseHTTPRequestHandler):
 
         return send_404(self)
 
-    # -------------------------------
-    # Logging
-    # -------------------------------
     def log_message(self, format, *args):
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"[{timestamp}] [LibraryServer] {format % args}")

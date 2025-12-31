@@ -1,4 +1,3 @@
-# database/bookshelf_queries.py
 from datetime import datetime
 from .connection import get_connection
 
@@ -63,3 +62,4 @@ def db_delete_bookshelf(bookshelf_id):
         conn.execute("DELETE FROM bookshelves WHERE id = ?", (bookshelf_id,))
         conn.commit()
     return shelf
+

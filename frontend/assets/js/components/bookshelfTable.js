@@ -1,9 +1,6 @@
 import { $ } from "../utils/dom.js";
-import { editBookshelf, deleteBookshelf } from "../controllers/bookshelfController.js";
+import { editBookshelf, handleDeleteBookshelf } from "../controllers/bookshelfController.js";
 
-// ================================
-// BOOKSHELF TABLE RENDERER
-// ================================
 export function renderBookshelfTable(bookshelves) {
   const body = $("bookshelvesTableBody");
   const noBookshelves = $("noBookshelves");
@@ -24,7 +21,7 @@ export function renderBookshelfTable(bookshelves) {
     row.className = "border-b hover:bg-gray-50";
 
     row.innerHTML = `
-      <td class="px-4 py-3 text-sm font-medium text-gray-900">${bookshelf.id?.slice(-8) ?? ''}</td>
+      <td class="px-4 py-3 text-sm font-medium text-gray-900">${String(bookshelf.id).slice(-8)}</td>
       <td class="px-4 py-3">${bookshelf.name ?? ''}</td>
       <td class="px-4 py-3">${bookshelf.zone ?? ''}</td>
       <td class="px-4 py-3">${bookshelf.capacity ?? 0}</td>
@@ -38,8 +35,11 @@ export function renderBookshelfTable(bookshelves) {
       </td>
     `;
 
-    row.querySelector("[data-edit]").onclick = () => editBookshelf(bookshelf.id);
-    row.querySelector("[data-delete]").onclick = () => deleteBookshelf(bookshelf.id);
+    const editBtn = row.querySelector("[data-edit]");
+    const deleteBtn = row.querySelector("[data-delete]");
+
+    if (editBtn) editBtn.onclick = () => editBookshelf(bookshelf.id);
+    if (deleteBtn) deleteBtn.onclick = () => handleDeleteBookshelf(bookshelf.id);
 
     body.appendChild(row);
   });

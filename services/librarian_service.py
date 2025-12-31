@@ -1,4 +1,3 @@
-# services/librarian_service.py
 from database.librarian_queries import (
     db_get_all_librarians, db_get_one_librarian, db_create_librarian,
     db_update_librarian, db_delete_librarian
@@ -22,5 +21,6 @@ def service_update_librarian(librarian_id, data):
 
 def service_delete_librarian(librarian_id):
     return db_delete_librarian(librarian_id)
+
 
 

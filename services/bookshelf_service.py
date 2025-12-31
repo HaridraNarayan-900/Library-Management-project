@@ -1,4 +1,3 @@
-# services/bookshelf_service.py
 from database.bookshelf_queries import (
     db_get_all_bookshelves, db_get_one_bookshelf, db_create_bookshelf,
     db_update_bookshelf, db_delete_bookshelf
@@ -22,4 +21,5 @@ def service_update_bookshelf(bookshelf_id, data):
 
 def service_delete_bookshelf(bookshelf_id):
     return db_delete_bookshelf(bookshelf_id)
+
 

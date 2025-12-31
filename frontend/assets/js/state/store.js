@@ -17,7 +17,22 @@ const listeners = [];
 export function setState(newState) {
   state = { ...state, ...newState };
   // Notify all listeners of state change
-  listeners.forEach((listener) => listener(state));
+  listeners.forEach((listener) => listener({ ...state }));
 }
 
-// ============================
+// ================================
+// GET STATE
+// ================================
+export function getState() {
+  // Return a copy to prevent accidental direct mutation
+  return { ...state };
+}
+
+// ================================
+// SUBSCRIBE TO STATE CHANGES (optional)
+// ================================
+export function subscribe(listener) {
+  if (typeof listener === "function") {
+    listeners.push(listener);
+  }
+}

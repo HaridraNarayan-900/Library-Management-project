@@ -1,9 +1,9 @@
 import {
-  apiGetAll,
-  apiGetOne,
-  apiCreate,
-  apiUpdate,
-  apiDelete,
+  getAllLibrarians,
+  getLibrarian,
+  createLibrarian,
+  updateLibrarian,
+  deleteLibrarian,
 } from "../services/librarianService.js";
 
 import { showAlert } from "../components/Alert.js";
@@ -12,12 +12,13 @@ import { resetLibrarianForm, fillLibrarianForm } from "../components/librarianFo
 import { setState, getState } from "../state/store.js";
 import { $ } from "../utils/dom.js";
 
-// Initialize
+// Initialize controller on DOM load
 document.addEventListener("DOMContentLoaded", () => initLibrarianController());
 
 export function initLibrarianController() {
   loadLibrarians();
 
+  // Form submit
   const form = $("librariansForm");
   if (form) {
     form.addEventListener("submit", async (e) => {
@@ -32,15 +33,16 @@ export function initLibrarianController() {
 
       const { editingId } = getState();
       try {
-        editingId 
-          ? await updateLibrarian(editingId, data) 
-          : await createNewLibrarian(data);
+        editingId
+          ? await handleUpdateLibrarian(editingId, data)
+          : await handleCreateLibrarian(data);
       } catch {
         showAlert("Operation failed", "error");
       }
     });
   }
 
+  // Cancel button
   const cancelBtn = $("cancelLibrarianBtn");
   if (cancelBtn) {
     cancelBtn.addEventListener("click", () => {
@@ -50,7 +52,9 @@ export function initLibrarianController() {
   }
 }
 
+// ================================
 // Load all librarians
+// ================================
 export async function loadLibrarians() {
   const spinner = $("loadingSpinner");
   const table = $("librariansTableContainer");
@@ -59,7 +63,7 @@ export async function loadLibrarians() {
   if (table) table.style.display = "none";
 
   try {
-    const librarians = await apiGetAll();
+    const librarians = await getAllLibrarians();
     setState({ librarians });
     renderLibrariansTable(librarians || []);
   } catch {
@@ -70,10 +74,12 @@ export async function loadLibrarians() {
   }
 }
 
-// Create
-export async function createNewLibrarian(data) {
+// ================================
+// Create new librarian
+// ================================
+export async function handleCreateLibrarian(data) {
   try {
-    const result = await apiCreate(data);
+    const result = await createLibrarian(data);
     if (result) {
       showAlert("Librarian added!");
       resetLibrarianForm();
@@ -84,10 +90,12 @@ export async function createNewLibrarian(data) {
   }
 }
 
-// Edit
+// ================================
+// Edit librarian
+// ================================
 export async function editLibrarian(id) {
   try {
-    const librarian = await apiGetOne(id);
+    const librarian = await getLibrarian(id);
     if (!librarian) return;
 
     setState({ editingId: id });
@@ -98,10 +106,12 @@ export async function editLibrarian(id) {
   }
 }
 
-// Update
-export async function updateLibrarian(id, data) {
+// ================================
+// Update librarian
+// ================================
+export async function handleUpdateLibrarian(id, data) {
   try {
-    const result = await apiUpdate(id, data);
+    const result = await updateLibrarian(id, data);
     if (result) {
       showAlert("Librarian updated!");
       resetLibrarianForm();
@@ -113,12 +123,14 @@ export async function updateLibrarian(id, data) {
   }
 }
 
-// Delete
-export async function deleteLibrarian(id) {
+// ================================
+// Delete librarian
+// ================================
+export async function handleDeleteLibrarian(id) {
   if (!confirm("Delete this librarian?")) return;
 
   try {
-    const result = await apiDelete(id);
+    const result = await deleteLibrarian(id);
     if (result) {
       showAlert("Librarian deleted!");
       loadLibrarians();
@@ -127,3 +139,4 @@ export async function deleteLibrarian(id) {
     showAlert("Failed to delete librarian", "error");
   }
 }
+

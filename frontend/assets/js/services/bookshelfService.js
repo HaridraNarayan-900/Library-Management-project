@@ -13,9 +13,7 @@ async function safeJson(res) {
 // ================================
 // BOOKSHELF API FUNCTIONS
 // ================================
-
-// Fetch all bookshelves
-export async function apiGetAll() {
+export async function getAllBookshelves() {
   try {
     const res = await fetch(`${API_BASE_URL}/bookshelves`);
     if (!res.ok) return [];
@@ -26,8 +24,7 @@ export async function apiGetAll() {
   }
 }
 
-// Fetch one bookshelf by ID
-export async function apiGetOne(id) {
+export async function getBookshelf(id) {
   try {
     const res = await fetch(`${API_BASE_URL}/bookshelves/${id}`);
     if (!res.ok) return null;
@@ -38,8 +35,7 @@ export async function apiGetOne(id) {
   }
 }
 
-// Create a new bookshelf
-export async function apiCreate(data) {
+export async function createBookshelf(data) {
   try {
     const res = await fetch(`${API_BASE_URL}/bookshelves`, {
       method: "POST",
@@ -54,8 +50,7 @@ export async function apiCreate(data) {
   }
 }
 
-// Update a bookshelf
-export async function apiUpdate(id, data) {
+export async function updateBookshelf(id, data) {
   try {
     const res = await fetch(`${API_BASE_URL}/bookshelves/${id}`, {
       method: "PUT",
@@ -70,8 +65,7 @@ export async function apiUpdate(id, data) {
   }
 }
 
-// Delete a bookshelf
-export async function apiDelete(id) {
+export async function deleteBookshelf(id) {
   try {
     const res = await fetch(`${API_BASE_URL}/bookshelves/${id}`, {
       method: "DELETE",

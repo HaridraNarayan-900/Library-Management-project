@@ -1,4 +1,3 @@
-# database/book_queries.py
 from datetime import datetime
 from .connection import get_connection
 
@@ -64,4 +63,3 @@ def db_delete_book(book_id):
         cur = conn.execute("DELETE FROM books WHERE id = ?", (book_id,))
         conn.commit()
         return cur.rowcount > 0
-

@@ -13,9 +13,7 @@ async function safeJson(res) {
 // ================================
 // LIBRARIAN API FUNCTIONS
 // ================================
-
-// Fetch all librarians
-export async function apiGetAll() {
+export async function getAllLibrarians() {
   try {
     const res = await fetch(`${API_BASE_URL}/librarians`);
     if (!res.ok) return [];
@@ -26,8 +24,7 @@ export async function apiGetAll() {
   }
 }
 
-// Fetch one librarian by ID
-export async function apiGetOne(id) {
+export async function getLibrarian(id) {
   try {
     const res = await fetch(`${API_BASE_URL}/librarians/${id}`);
     if (!res.ok) return null;
@@ -38,8 +35,7 @@ export async function apiGetOne(id) {
   }
 }
 
-// Create a new librarian
-export async function apiCreate(data) {
+export async function createLibrarian(data) {
   try {
     const res = await fetch(`${API_BASE_URL}/librarians`, {
       method: "POST",
@@ -54,8 +50,7 @@ export async function apiCreate(data) {
   }
 }
 
-// Update a librarian
-export async function apiUpdate(id, data) {
+export async function updateLibrarian(id, data) {
   try {
     const res = await fetch(`${API_BASE_URL}/librarians/${id}`, {
       method: "PUT",
@@ -70,8 +65,7 @@ export async function apiUpdate(id, data) {
   }
 }
 
-// Delete a librarian
-export async function apiDelete(id) {
+export async function deleteLibrarian(id) {
   try {
     const res = await fetch(`${API_BASE_URL}/librarians/${id}`, {
       method: "DELETE",

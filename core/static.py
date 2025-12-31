@@ -1,4 +1,3 @@
-# core/static.py
 import os
 import mimetypes
 from core.responses import send_404
@@ -23,7 +22,7 @@ def serve_static(handler, filepath):
 
         content_type, _ = mimetypes.guess_type(full_path)
 
-        # Force correct MIME types for HTML, YAML, JS
+        # Force correct MIME types
         if full_path.endswith(".html"):
             content_type = "text/html"
         elif full_path.endswith(".yaml") or full_path.endswith(".yml"):

@@ -1,4 +1,3 @@
-# database/librarian_queries.py
 from datetime import datetime, timezone
 from .connection import get_connection
 
@@ -65,5 +64,3 @@ def db_delete_librarian(librarian_id):
         conn.execute("DELETE FROM librarians WHERE id = ?", (librarian_id,))
         conn.commit()
     return librarian
-
-

@@ -1,5 +1,4 @@
-// For Library Management
-window.ENV ={
+window.ENV = {
   APP_NAME: "Library Management System",
-  API_BASE_URL: "/api"  // base URL for all API requests
+  API_BASE_URL: "https://<your-codespace-id>-8000.preview.app.github.dev/api"
 };

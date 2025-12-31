@@ -1,17 +1,14 @@
 import { $ } from "../utils/dom.js";
-import { editBook, deleteBook } from "../controllers/bookController.js";
+import { editBook, handleDeleteBook } from "../controllers/bookController.js";
 
 // ================================
 // BOOK TABLE RENDERER
 // ================================
-export function renderBookTable(books) {
+export function renderBooksTable(books) {
   const body = $("booksTableBody");
   const noBooks = $("noBooks");
 
-  if (!body || !noBooks) {
-    console.error("Required elements not found!");
-    return;
-  }
+  if (!body || !noBooks) return;
 
   body.innerHTML = "";
 
@@ -27,15 +24,12 @@ export function renderBookTable(books) {
     row.className = "border-b hover:bg-gray-50";
 
     row.innerHTML = `
-      <td class="px-4 py-3 text-sm font-medium text-gray-900">${book.id ?? ''}</td>
-      <td class="px-4 py-3 text-sm font-medium text-blue-600">${book.title ?? ''}</td>
-      <td class="px-4 py-3 text-sm text-gray-700">${book.author ?? ''}</td>
-      <td class="px-4 py-3 text-sm">${book.isbn ?? ''}</td>
-      <td class="px-4 py-3 text-sm text-gray-700">${book.category ?? 'General'}</td>
-      <td class="px-4 py-3 text-sm font-medium">
-        <span class="text-green-600">${book.available_copies ?? 0}</span> / 
-        <span class="text-gray-600">${book.total_copies ?? 0}</span>
-      </td>
+      <td class="px-4 py-3 text-sm font-medium text-gray-900">${String(book.id).slice(-8)}</td>
+      <td class="px-4 py-3">${book.title ?? ''}</td>
+      <td class="px-4 py-3">${book.author ?? ''}</td>
+      <td class="px-4 py-3">${book.isbn ?? ''}</td>
+      <td class="px-4 py-3">${book.genre ?? ''}</td>
+      <td class="px-4 py-3">${book.shelf_id ?? ''}</td>
       <td class="px-4 py-3 text-right space-x-2">
         <button class="bg-yellow-400 hover:bg-yellow-500 text-black py-1 px-3 rounded text-sm font-medium transition"
                 data-edit="${book.id}">Edit</button>
@@ -44,9 +38,13 @@ export function renderBookTable(books) {
       </td>
     `;
 
-    row.querySelector("[data-edit]").onclick = () => editBook(book.id);
-    row.querySelector("[data-delete]").onclick = () => deleteBook(book.id);
+    const editBtn = row.querySelector("[data-edit]");
+    const deleteBtn = row.querySelector("[data-delete]");
+
+    if (editBtn) editBtn.onclick = () => editBook(book.id);
+    if (deleteBtn) deleteBtn.onclick = () => handleDeleteBook(book.id);
 
     body.appendChild(row);
   });
 }
+

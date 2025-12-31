@@ -1,4 +1,3 @@
-# core/responses.py
 import json
 from core.middleware import add_cors_headers
 
@@ -25,4 +24,5 @@ def send_400(handler, message="Bad Request"):
     handler.send_header("Content-Type", "application/json")
     handler.end_headers()
     handler.wfile.write(json.dumps({"error": message}).encode("utf-8"))
+
 
