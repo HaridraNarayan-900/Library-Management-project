@@ -1,38 +1,13 @@
-// ================================
-// GLOBAL STATE
-// ================================
-let state = {
-  editingId: null,      // ID of the item currently being edited
-  books: [],            // Array of all books
-  librarians: [],       // Array of all librarians
-  bookshelves: []       // Array of all bookshelves
+const state = {
+  editingId: null,
 };
 
-// Optional: listeners for reactive updates
-const listeners = [];
-
-// ================================
-// SET STATE
-// ================================
 export function setState(newState) {
-  state = { ...state, ...newState };
-  // Notify all listeners of state change
-  listeners.forEach((listener) => listener({ ...state }));
+  Object.assign(state, newState);
 }
 
-// ================================
-// GET STATE
-// ================================
 export function getState() {
-  // Return a copy to prevent accidental direct mutation
-  return { ...state };
+  return state;
 }
 
-// ================================
-// SUBSCRIBE TO STATE CHANGES (optional)
-// ================================
-export function subscribe(listener) {
-  if (typeof listener === "function") {
-    listeners.push(listener);
-  }
-}
+

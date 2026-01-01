@@ -1,31 +1,17 @@
 import { $ } from "../utils/dom.js";
 
-// ================================
-// BOOKSHELF FORM HANDLERS
-// ================================
-
 export function resetBookshelfForm() {
-  const form = $("bookshelvesForm");
-  if (form) form.reset();
-
-  const submitBtn = $("bookshelfSubmitBtn");
-  if (submitBtn) submitBtn.textContent = "Add Bookshelf";
-
-  const cancelBtn = $("cancelBookshelfBtn");
-  if (cancelBtn) cancelBtn.style.display = "none";
+  $("bookshelfForm")?.reset();
+  $("bookshelfSubmitBtn").textContent = "Add Shelf";
+  $("cancelBookshelfBtn").classList.add("hidden");
 }
 
-export function fillBookshelfForm(bookshelf) {
-  if (!bookshelf) return;
+export function fillBookshelfForm(b) {
+  $("shelfName").value = b.name || "";
+  $("shelfLocation").value = b.location || "";
+  $("shelfCapacity").value = b.capacity || 0;
 
-  $("bookshelfName").value = bookshelf.name || "";
-  $("bookshelfLocation").value = bookshelf.location || "";
-  $("bookshelfCapacity").value = bookshelf.capacity ?? 0;
-  $("bookshelfCurrentCount").value = bookshelf.current_count ?? 0;
-
-  const submitBtn = $("bookshelfSubmitBtn");
-  if (submitBtn) submitBtn.textContent = "Update Bookshelf";
-
-  const cancelBtn = $("cancelBookshelfBtn");
-  if (cancelBtn) cancelBtn.style.display = "block";
+  $("bookshelfSubmitBtn").textContent = "Update Shelf";
+  $("cancelBookshelfBtn").classList.remove("hidden");
 }
+

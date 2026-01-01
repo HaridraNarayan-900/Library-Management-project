@@ -1,12 +1,12 @@
 # Starts the API server and initializes the database
 
 from http.server import HTTPServer
-from router import Router
+from router import LibraryRouter
 from database.connection import init_database
 
 def run_server():
     init_database()
-    server = HTTPServer(("", 8000),Router)
+    server = HTTPServer(("", 8000),LibraryRouter)
     print("🚀 Server running at http://localhost:8000")
     server.serve_forever()
 

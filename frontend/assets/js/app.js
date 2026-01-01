@@ -1,9 +1,9 @@
-// frontend/assets/js/main.js
+// Main entrypoint for frontend
+// import { initStudentController } from "./controllers/studentController.js";
+import { router } from "./router/viewRouter.js";
 
-// Import the router that handles all views and controller initialization
-import { initApp } from "./app.js";
-
-// Initialize the application when the DOM is fully loaded
+// Initialize app on page load
 window.addEventListener("DOMContentLoaded", () => {
-  initApp();
+  router();
+  // initStudentController();
 });
