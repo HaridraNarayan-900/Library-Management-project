@@ -1,69 +1,104 @@
-import {
-  getAllBookshelves,
-  getBookshelf,
-  createBookshelf,
-  updateBookshelf,
-  deleteBookshelf,
+
+import { 
+  apiGetAllBookshelves, 
+  apiGetOneBookshelf, 
+  apiCreateBookshelf, 
+  apiUpdateBookshelf, 
+  apiDeleteBookshelf 
 } from "../services/bookshelfService.js";
 
-import { renderBookshelvesTable } from "../components/bookshelfTable.js";
-import { resetBookshelfForm, fillBookshelfForm } from "../components/bookshelfForm.js";
 import { showAlert } from "../components/Alert.js";
+import { renderBookshelfTable } from "../components/bookshelfTable.js";
+import { resetForm, fillForm } from "../components/bookshelfForm.js";
+
 import { setState, getState } from "../state/store.js";
-import { $ } from "../utils/dom.js";
+import { $, createElement } from "../utils/dom.js";
 
-export async function initBookshelfController() {
-  await load();
+// Initialize the main logic and set up all necessary event listeners
+export function initBookshelfController() {
+  loadBookshelves();
 
-  $("bookshelfForm")?.addEventListener("submit", async (e) => {
+  $("bookshelfForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const data = {
-      name: $("shelfName").value.trim(),
-      location: $("shelfLocation").value.trim(),
-      capacity: Number($("shelfCapacity").value),
+      location: $("location").value.trim(),
+      position: $("position").value.trim(),     
     };
 
     const { editingId } = getState();
-    editingId ? await update(editingId, data) : await create(data);
+
+    editingId
+      ? await updateBookshelf(editingId, data)
+      : await createNewbookshelf(data);
   });
 
-  $("cancelBookshelfBtn")?.addEventListener("click", () => {
+  $("cancelBtn").addEventListener("click", () => {
     setState({ editingId: null });
-    resetBookshelfForm();
+    resetForm();
   });
 }
 
-async function load() {
-  renderBookshelvesTable(await getAllBookshelves());
+
+// Fetch all bookshelf data from the API and update the user interface
+export async function loadBookshelves() {
+  const spinner = $("loadingSpinner");
+  const table = $("bookshelvesTableContainer");
+
+  spinner.style.display = "block";
+  table.style.display = "none";
+
+  const bookshelves = await apiGetAllBookshelves();
+
+  setState({ bookshelves });
+  renderBookshelfTable(bookshelves);
+
+  spinner.style.display = "none";
+  table.style.display = "block";
 }
 
-async function create(data) {
-  await createBookshelf(data);
-  showAlert("Bookshelf added");
-  resetBookshelfForm();
-  load();
+
+// Create a new bookshelf
+export async function createNewbookshelf(data) {
+  const res = await apiCreateBookshelf(data);
+  if (res.ok) {
+    showAlert("bookshelf added!");
+    resetForm();
+    loadBookshelves();
+  }
 }
 
+
+// Load a bookshelf into the form for editing
 export async function editBookshelf(id) {
-  const shelf = await getBookshelf(id);
-  if (!shelf) return;
+  const bookshelf = await apiGetOneBookshelf(id);
 
   setState({ editingId: id });
-  fillBookshelfForm(shelf);
+  fillForm(bookshelf);
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-async function update(id, data) {
-  await updateBookshelf(id, data);
-  showAlert("Bookshelf updated");
-  resetBookshelfForm();
-  setState({ editingId: null });
-  load();
+
+// Update an existing bookshelf
+export async function updateBookshelf(id, data) {
+  const res = await apiUpdateBookshelf(id, data);
+  if (res.ok) {
+    showAlert("Updated!");
+    resetForm();
+    setState({ editingId: null });
+    loadBookshelves();
+  }
 }
 
-export async function handleDeleteBookshelf(id) {
-  if (!confirm("Delete this shelf?")) return;
-  await deleteBookshelf(id);
-  showAlert("Bookshelf deleted");
-  load();
+
+// Delete a bookshelf
+export async function deleteBookshelfAction(id) {
+  if (!confirm("Delete this bookshelf?")) return;
+
+  const res = await apiDeleteBookshelf(id);
+  if (res.ok) {
+    showAlert("Deleted!");
+    loadBookshelves();
+  }
 }

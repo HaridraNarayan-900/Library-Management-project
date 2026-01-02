@@ -19,12 +19,16 @@ export async function router() {
     await loadView("/frontend/pages/books.html");
     initBookController();
   }
-
+  if (path === "/" || path === "/home") {
+    await loadView("/frontend/pages/home.html");
+  }
     else if (path === "/books") {
     await loadView("/frontend/pages/librarian.html");
     initLibrarianController();
   }
-
+  if (path === "/" || path === "/home") {
+    await loadView("/frontend/pages/home.html");
+  }
     else if (path === "/bookshelves") {
     await loadView("/frontend/pages/bookshelves.html");
     initBookshelfController();

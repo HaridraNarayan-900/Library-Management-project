@@ -1,34 +1,49 @@
-import { API_BASE_URL, safeJson } from "./app.js";
+// Base API URL from env.js
+const API_URL = window.ENV.API_BASE_URL;
 
-export async function getAllBooks() {
-  const res = await fetch(`${API_BASE_URL}/books`);
-  return res.ok ? safeJson(res) : [];
+// Helper: safely parse JSON or return null
+async function safeJson(res) {
+  try {
+    return await res.json();
+  } catch (_) {
+    return null;
+  }
 }
 
-export async function getBook(id) {
-  const res = await fetch(`${API_BASE_URL}/books/${id}`);
-  return res.ok ? safeJson(res) : null;
+// Fetch all books
+export async function apiGetAllBooks() {
+  const res = await fetch(API_URL);
+  if (!res.ok) return [];
+  return safeJson(res);
 }
 
-export async function createBook(data) {
-  const res = await fetch(`${API_BASE_URL}/books`, {
+// Fetch one book by ID
+export async function apiGetOneBook(id) {
+  const res = await fetch(`${API_URL}/${id}`);
+  if (!res.ok) return null;
+  return safeJson(res);
+}
+
+// Create a new book
+export function apiCreateBook(data) {
+  return fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   });
-  return res.ok ? safeJson(res) : null;
 }
 
-export async function updateBook(id, data) {
-  const res = await fetch(`${API_BASE_URL}/books/${id}`, {
+// Update a book
+export function apiUpdateBook(id, data) {
+  return fetch(`${API_URL}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   });
-  return res.ok ? safeJson(res) : null;
 }
 
-export async function deleteBook(id) {
-  const res = await fetch(`${API_BASE_URL}/books/${id}`, { method: "DELETE" });
-  return res.ok;
+// Delete a book
+export function apiDeleteBook(id) {
+  return fetch(`${API_URL}/${id}`, { method: "DELETE" });
 }
+

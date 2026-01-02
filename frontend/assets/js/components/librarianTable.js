@@ -2,10 +2,10 @@ import { $ } from "../utils/dom.js";
 import { editLibrarian, deleteLibrarianAction } from "../controllers/librarianController.js";
 
 // Renders the list of librarians into an HTML table
-export function renderlibrarianTable(librarians) {
+export function renderLibrarianTable(librarians) {
   // Get references to the table body where rows will be inserted and the 'no librarians' message
   const body = $("librariansTableBody");
-  const noLibrarians = $("nolibrarians");
+  const noLibrarians = $("noLibrarians");
 
   // Clear any existing rows from the table body before rendering new data
   body.innerHTML = "";

@@ -1,72 +1,105 @@
-import {
-  getAllLibrarians,
-  getLibrarian,
-  createLibrarian,
-  updateLibrarian,
-  deleteLibrarian,
+import { 
+  apiGetAllLibrarians, 
+  apiGetOneLibrarian, 
+  apiCreateLibrarian, 
+  apiUpdateLibrarian, 
+  apiDeleteLibrarian 
 } from "../services/librarianService.js";
 
-import { renderLibrariansTable } from "../components/librarianTable.js";
-import { resetLibrarianForm, fillLibrarianForm } from "../components/librarianForm.js";
 import { showAlert } from "../components/Alert.js";
+import { renderLibrarianTable } from "../components/librarianTable.js";
+import { resetForm, fillForm } from "../components/librarianForm.js";
+
 import { setState, getState } from "../state/store.js";
-import { $ } from "../utils/dom.js";
+import { $, createElement } from "../utils/dom.js";
 
-export async function initLibrarianController() {
-  await loadLibrarians();
+// Initialize the main logic and set up all necessary event listeners
+export function initLibrarianController() {
+  loadLibrarians();
 
-  $("librariansForm")?.addEventListener("submit", async (e) => {
+  $("librarianForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const data = {
-      name: $("librarianName").value.trim(),
-      email: $("librarianEmail").value.trim(),
-      phone: $("librarianPhone").value.trim(),
-      position: $("librarianPosition").value.trim(),
+      name: $("name").value.trim(),
+      email: $("email").value.trim(),
+      phone: $("phone").value.trim(),
+     
     };
 
     const { editingId } = getState();
-    editingId ? await update(editingId, data) : await create(data);
+
+    editingId
+      ? await updateLibrarian(editingId, data)
+      : await createNewLibrarian(data);
   });
 
-  $("cancelLibrarianBtn")?.addEventListener("click", () => {
+  $("cancelBtn").addEventListener("click", () => {
     setState({ editingId: null });
-    resetLibrarianForm();
+    resetForm();
   });
 }
 
-async function loadLibrarians() {
-  const data = await getAllLibrarians();
-  renderLibrariansTable(data);
+
+// Fetch all librarian data from the API and update the user interface
+export async function loadLibrarians() {
+  const spinner = $("loadingSpinner");
+  const table = $("librariansTableContainer");
+
+  spinner.style.display = "block";
+  table.style.display = "none";
+
+  const librarians = await apiGetAllLibrarians();
+
+  setState({ librarians });
+  renderLibrarianTable(librarians);
+
+  spinner.style.display = "none";
+  table.style.display = "block";
 }
 
-async function create(data) {
-  await createLibrarian(data);
-  showAlert("Librarian added");
-  resetLibrarianForm();
-  loadLibrarians();
+
+// Create a new librarian
+export async function createNewLibrarian(data) {
+  const res = await apiCreateLibrarian(data);
+  if (res.ok) {
+    showAlert("librarian added!");
+    resetForm();
+    loadLibrarians();
+  }
 }
 
+
+// Load a librarian into the form for editing
 export async function editLibrarian(id) {
-  const librarian = await getLibrarian(id);
-  if (!librarian) return;
+  const librarian = await apiGetOneLibrarian(id);
 
   setState({ editingId: id });
-  fillLibrarianForm(librarian);
+  fillForm(librarian);
+
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-async function update(id, data) {
-  await updateLibrarian(id, data);
-  showAlert("Librarian updated");
-  resetLibrarianForm();
-  setState({ editingId: null });
-  loadLibrarians();
+
+// Update an existing librarian
+export async function updateLibrarian(id, data) {
+  const res = await apiUpdateLibrarian(id, data);
+  if (res.ok) {
+    showAlert("Updated!");
+    resetForm();
+    setState({ editingId: null });
+    loadLibrarians();
+  }
 }
 
-export async function handleDeleteLibrarian(id) {
+
+// Delete a librarian
+export async function deleteLibrarianAction(id) {
   if (!confirm("Delete this librarian?")) return;
-  await deleteLibrarian(id);
-  showAlert("Librarian deleted");
-  loadLibrarians();
+
+  const res = await apiDeleteLibrarian(id);
+  if (res.ok) {
+    showAlert("Deleted!");
+    loadLibrarians();
+  }
 }

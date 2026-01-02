@@ -1,36 +1,49 @@
-import { API_BASE_URL, safeJson } from "./app.js";
+// Base API URL from env.js
+const API_URL = window.ENV.API_BASE_URL;
 
-export async function getAllLibrarians() {
-  const res = await fetch(`${API_BASE_URL}/librarians`);
-  return res.ok ? safeJson(res) : [];
+// Helper: safely parse JSON or return null
+async function safeJson(res) {
+  try {
+    return await res.json();
+  } catch (_) {
+    return null;
+  }
 }
 
-export async function getLibrarian(id) {
-  const res = await fetch(`${API_BASE_URL}/librarians/${id}`);
-  return res.ok ? safeJson(res) : null;
+// Fetch all Librarians
+export async function apiGetAllLibrarians() {
+  const res = await fetch(API_URL);
+  if (!res.ok) return [];
+  return safeJson(res);
 }
 
-export async function createLibrarian(data) {
-  const res = await fetch(`${API_BASE_URL}/librarians`, {
+// Fetch one Librarian by ID
+export async function apiGetOneLibrarian(id) {
+  const res = await fetch(`${API_URL}/${id}`);
+  if (!res.ok) return null;
+  return safeJson(res);
+}
+
+// Create a new Librarian
+export function apiCreateLibrarian(data) {
+  return fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   });
-  return res.ok ? safeJson(res) : null;
 }
 
-export async function updateLibrarian(id, data) {
-  const res = await fetch(`${API_BASE_URL}/librarians/${id}`, {
+// Update a Librarian
+export function apiUpdateLibrarian(id, data) {
+  return fetch(`${API_URL}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   });
-  return res.ok ? safeJson(res) : null;
 }
 
-export async function deleteLibrarian(id) {
-  const res = await fetch(`${API_BASE_URL}/librarians/${id}`, {
-    method: "DELETE",
-  });
-  return res.ok;
+// Delete a Librarian
+export function apiDeleteLibrarian(id) {
+  return fetch(`${API_URL}/${id}`, { method: "DELETE" });
 }
+

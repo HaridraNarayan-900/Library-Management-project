@@ -1,36 +1,49 @@
-import { API_BASE_URL, safeJson } from "./app.js";
+// Base API URL from env.js
+const API_URL = window.ENV.API_BASE_URL;
 
-export async function getAllBookshelves() {
-  const res = await fetch(`${API_BASE_URL}/bookshelves`);
-  return res.ok ? safeJson(res) : [];
+// Helper: safely parse JSON or return null
+async function safeJson(res) {
+  try {
+    return await res.json();
+  } catch (_) {
+    return null;
+  }
 }
 
-export async function getBookshelf(id) {
-  const res = await fetch(`${API_BASE_URL}/bookshelves/${id}`);
-  return res.ok ? safeJson(res) : null;
+// Fetch all Bookshelves
+export async function apiGetAllBookshelves() {
+  const res = await fetch(API_URL);
+  if (!res.ok) return [];
+  return safeJson(res);
 }
 
-export async function createBookshelf(data) {
-  const res = await fetch(`${API_BASE_URL}/bookshelves`, {
+// Fetch one Bookshelf by ID
+export async function apiGetOneBookshelf(id) {
+  const res = await fetch(`${API_URL}/${id}`);
+  if (!res.ok) return null;
+  return safeJson(res);
+}
+
+// Create a new Bookshelf
+export function apiCreateBookshelf(data) {
+  return fetch(API_URL, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   });
-  return res.ok ? safeJson(res) : null;
 }
 
-export async function updateBookshelf(id, data) {
-  const res = await fetch(`${API_BASE_URL}/bookshelves/${id}`, {
+// Update a Bookshelf
+export function apiUpdateBookshelf(id, data) {
+  return fetch(`${API_URL}/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
+    body: JSON.stringify(data)
   });
-  return res.ok ? safeJson(res) : null;
 }
 
-export async function deleteBookshelf(id) {
-  const res = await fetch(`${API_BASE_URL}/bookshelves/${id}`, {
-    method: "DELETE",
-  });
-  return res.ok;
+// Delete a Bookshelf
+export function apiDeleteBookshelf(id) {
+  return fetch(`${API_URL}/${id}`, { method: "DELETE" });
 }
+

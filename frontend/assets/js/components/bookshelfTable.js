@@ -2,9 +2,9 @@ import { $ } from "../utils/dom.js";
 import { editBookshelf, deleteBookshelfAction } from "../controllers/bookshelfController.js";
 
 // Renders the list of bookshelfs into an HTML table
-export function renderbookshelfTable(bookshelves) {
+export function renderBookshelfTable(bookshelves) {
   // Get references to the table body where rows will be inserted and the 'no bookshelfs' message
-  const body = $("bookshelfsTableBody");
+  const body = $("bookshelvesTableBody");
   const noBookshelves = $("nobookshelves");
 
   // Clear any existing rows from the table body before rendering new data
@@ -29,7 +29,7 @@ export function renderbookshelfTable(bookshelves) {
     // Populate the row with dynamic HTML content using a template literal
     row.innerHTML = `
       <td class="px-3 py-2">${bookshelf.location}</td>
-      <td class="px-3 py-2">${bookshelf.position}</td>
+      <td class="px-3 py-2">${bookshelf.description}</td>
       <td class="px-3 py-2 flex space-x-2">
         <!-- Buttons are created with data attributes holding the bookshelf ID -->
         <button class="bg-yellow-400 hover:bg-yellow-500 text-black py-1 px-3 rounded"

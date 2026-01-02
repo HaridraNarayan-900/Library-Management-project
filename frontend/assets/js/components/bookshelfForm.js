@@ -16,7 +16,7 @@ export function resetForm() {
 export function fillForm(bookshelf) {
   // Fill each input field with the corresponding property from the bookshelf data
   $("location").value = bookshelf.location;
-  $("position").value = bookshelf.position;
+  $("description").value = bookshelf.position;
 
   // Change the submit button text to "Update bookshelf"
   $("submitBtn").textContent = "Update Bookshelf";

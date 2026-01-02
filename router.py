@@ -52,6 +52,14 @@ def handle_ui_routes(handler, path):
         return True
 
     return False
+
+class LibraryRouter(BaseHTTPRequestHandler):
+
+    def do_OPTIONS(self):
+        self.send_response(200)
+        add_cors_headers(self)
+        self.end_headers()
+
 # ---------------------------
     # READ (GET)
     # ---------------------------
