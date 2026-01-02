@@ -30,7 +30,7 @@ from core.responses import send_404
 from core.middleware import add_cors_headers
 
 
-FRONTEND_ROUTES = {"/", "/home", "/books","/librarians","/bookshelves" "/docs"}
+FRONTEND_ROUTES = {"/", "/home", "/books","/librarians","/bookshelves", "/docs"}
 
 def handle_ui_routes(handler, path):
     if path in FRONTEND_ROUTES:

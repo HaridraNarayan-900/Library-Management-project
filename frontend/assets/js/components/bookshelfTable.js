@@ -5,7 +5,7 @@ import { editBookshelf, deleteBookshelfAction } from "../controllers/bookshelfCo
 export function renderBookshelfTable(bookshelves) {
   // Get references to the table body where rows will be inserted and the 'no bookshelfs' message
   const body = $("bookshelvesTableBody");
-  const noBookshelves = $("nobookshelves");
+  const noBookshelves = $("noBookshelves");
 
   // Clear any existing rows from the table body before rendering new data
   body.innerHTML = "";

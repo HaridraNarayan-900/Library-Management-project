@@ -23,7 +23,7 @@ export function initBookshelfController() {
 
     const data = {
       location: $("location").value.trim(),
-      position: $("position").value.trim(),     
+      description: $("description").value.trim(),     
     };
 
     const { editingId } = getState();
