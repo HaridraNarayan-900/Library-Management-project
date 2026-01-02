@@ -1,9 +1,13 @@
 // Main entrypoint for frontend
-// import { initStudentController } from "./controllers/studentController.js";
+import { initBookController } from "./controllers/bookController.js";
+import { initLibrarianController } from "./controllers/librarianController.js";
+import { initBookshelfController } from "./controllers/bookshelfController.js";
 import { router } from "./router/viewRouter.js";
 
 // Initialize app on page load
 window.addEventListener("DOMContentLoaded", () => {
   router();
-  // initStudentController();
+  initBookController();
+  initLibrarianController();
+  initBookshelfController();
 });
