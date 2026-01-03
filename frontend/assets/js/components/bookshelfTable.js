@@ -28,6 +28,7 @@ export function renderBookshelfTable(bookshelves) {
 
     // Populate the row with dynamic HTML content using a template literal
     row.innerHTML = `
+      <td class="px-3 py-2">${bookshelf.id}</td>
       <td class="px-3 py-2">${bookshelf.location}</td>
       <td class="px-3 py-2">${bookshelf.description}</td>
       <td class="px-3 py-2 flex space-x-2">

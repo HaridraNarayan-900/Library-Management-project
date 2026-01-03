@@ -2,13 +2,11 @@
 
   <div class="flex items-center justify-between mb-6">
     <h1 class="text-3xl font-bold">Library Management System</h1>
-    <a href="/home" data-link class="text-sm text-blue-600 underline">← Back to Home</a>
+    <a href="/home" data-link class="text-sm text-pink-600 underline">← Back to Home</a>
 
-    <a href="/bookshelves" data-link class="text-sm text-blue-600 underline">Bookshelves</a>
+    <a href="/books" data-link class="text-sm text-green-600 underline">Books</a>
 
-    <a href="/books" data-link class="text-sm text-blue-600 underline">Books</a>
-
-    <a href="/librarians" data-link class="text-sm text-blue-600 underline">Librarians</a>
+    <a href="/librarians" data-link class="text-sm text-yellow-600 underline">Librarians</a>
   </div>
 
   <!-- Add / Edit Bookshelf Form -->
@@ -20,12 +18,12 @@
         
       <div class="flex space-x-2">
         <button type="submit" id="submitBtn"
-          class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded">
+          class="flex-1 bg-pink-500 hover:bg-orange-600 text-white py-2 rounded">
           Add Bookshelf
         </button>
 
         <button type="button" id="cancelBtn"
-          class="flex-1 bg-gray-400 hover:bg-gray-500 text-white py-2 rounded hidden">
+          class="flex-1 bg-gray-400 hover:bg-purple-500 text-white py-2 rounded hidden">
           Cancel
         </button>
       </div>
@@ -38,7 +36,7 @@
 
     <!-- Loading Spinner -->
     <div id="loadingSpinner" class="text-center py-4">
-      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-500 mx-auto"></div>
+      <div class="animate-spin rounded-full h-6 w-6 border-b-2 border-pink-500 mx-auto"></div>
     </div>
 
     <!-- Bookshelves Table Container -->
