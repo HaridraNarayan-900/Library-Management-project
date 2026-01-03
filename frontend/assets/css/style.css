@@ -1,7 +1,7 @@
 /* Only for minor global tweaks */
 
 body {
-  background-color: aqua;
+  background-color: rgb(209, 238, 130);
   scroll-behavior: smooth;
 }
 
