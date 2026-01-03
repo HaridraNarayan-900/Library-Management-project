@@ -1,6 +1,7 @@
 /* Only for minor global tweaks */
 
 body {
+  background-color: aqua;
   scroll-behavior: smooth;
 }
 
